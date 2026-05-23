@@ -9,6 +9,7 @@
 <meta name="apple-mobile-web-app-title" content="PAYMENTS">
 <meta name="mobile-web-app-capable" content="yes">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap');
 *{box-sizing:border-box;margin:0;padding:0}
@@ -255,6 +256,35 @@ body.light{--bg:#f0f2f8;--card:#fff;--border:#dde0ea;--text:#1a1d26;--sub:#7a80a
 </style>
 </head>
 <body>
+
+<!-- AUTH OVERLAY -->
+<style>
+#auth-overlay{position:fixed;inset:0;z-index:100000;display:flex;align-items:center;justify-content:center;padding:24px;background:var(--bg);direction:rtl}
+#auth-overlay::before{content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse at 15% 15%,color-mix(in srgb,var(--acc) 8%,transparent) 0%,transparent 50%),
+             radial-gradient(ellipse at 85% 85%,color-mix(in srgb,var(--acc) 5%,transparent) 0%,transparent 45%)}
+#auth-box{position:relative;background:var(--card);border:1px solid color-mix(in srgb,var(--acc) 30%,transparent);border-radius:22px;padding:28px 22px;max-width:360px;width:100%;box-shadow:0 12px 48px rgba(0,0,0,.5)}
+#auth-logo{font-size:24px;font-weight:800;color:var(--acc);text-align:center;margin-bottom:4px}
+#auth-subtitle{font-size:13px;color:var(--sub);text-align:center;margin-bottom:22px}
+#auth-overlay input{width:100%;background:var(--inp);border:1.5px solid var(--inpb);border-radius:12px;padding:13px 14px;color:var(--text);font-size:16px;font-family:var(--ff);outline:none;margin-bottom:12px;text-align:right;direction:rtl}
+#auth-overlay input:focus{border-color:color-mix(in srgb,var(--acc) 60%,transparent)}
+#auth-submit{width:100%;background:var(--acc);border:none;border-radius:12px;padding:14px;font-size:15px;font-weight:700;font-family:var(--ff);color:#0d0f14;cursor:pointer;box-shadow:0 4px 18px color-mix(in srgb,var(--acc) 40%,transparent);margin-top:4px}
+#auth-submit:disabled{opacity:.6;cursor:default}
+#auth-error{display:none;background:color-mix(in srgb,var(--err) 14%,transparent);border:1px solid color-mix(in srgb,var(--err) 40%,transparent);color:var(--err);border-radius:10px;padding:10px 12px;font-size:12px;text-align:right;margin-bottom:12px;line-height:1.5}
+#auth-toggle{text-align:center;font-size:13px;color:var(--sub);margin-top:16px}
+#auth-toggle span{color:var(--acc);font-weight:700;cursor:pointer;text-decoration:underline}
+</style>
+<div id="auth-overlay">
+  <div id="auth-box">
+    <div id="auth-logo">وين فلوسي تروح</div>
+    <div id="auth-subtitle">سجّل دخولك للمتابعة</div>
+    <div id="auth-error"></div>
+    <input id="auth-username" type="text" inputmode="text" placeholder="اسم المستخدم" autocomplete="username" autocapitalize="none" spellcheck="false">
+    <input id="auth-password" type="password" placeholder="كلمة المرور" autocomplete="current-password">
+    <button id="auth-submit">تسجيل الدخول</button>
+    <div id="auth-toggle">ما عندك حساب؟ <span id="auth-toggle-link">أنشئ حساب</span></div>
+  </div>
+</div>
 
 <!-- NAV -->
 <div id="nav">
@@ -774,6 +804,12 @@ body.light{--bg:#f0f2f8;--card:#fff;--border:#dde0ea;--text:#1a1d26;--sub:#7a80a
     <div style="font-size:10px;color:var(--sub);text-align:right;margin-top:6px;line-height:1.5">🔴 يحذف الدفعات + الاشتراكات + الديون + الميزانيات — التصنيفات تبقى</div>
   </div>
 
+  <div class="card">
+    <div class="sec-title">الحساب</div>
+    <div id="account-user" style="font-size:12px;color:var(--sub);text-align:right;margin-bottom:10px"></div>
+    <button class="btn btn-err-out btn-full" id="btn-logout">🚪 تسجيل الخروج</button>
+  </div>
+
   <!-- Attribution -->
   <div style="text-align:center;padding:24px 0 8px;opacity:.35">
     <div style="font-size:11px;color:var(--sub);letter-spacing:.5px;font-style:italic">Created by Abdullah Alfaifi</div>
@@ -1082,5 +1118,6 @@ body.light{--bg:#f0f2f8;--card:#fff;--border:#dde0ea;--text:#1a1d26;--sub:#7a80a
   <button class="bnav-btn" data-page="settings"><span class="bnav-icon">⚙️</span></button>
 </div>
 <script src="app.js"></script>
+<script src="auth.js"></script>
 </body>
 </html>
