@@ -1,6 +1,6 @@
 // Service worker — offline shell + static asset caching.
 // Bump CACHE_VERSION whenever index.html or assets change to force an update.
-const CACHE_VERSION = 'v1';
+const CACHE_VERSION = 'v2';
 const CACHE_NAME = 'mypay-' + CACHE_VERSION;
 
 // App shell precached on install so the app opens with no network.

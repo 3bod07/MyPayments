@@ -754,6 +754,15 @@ body.light{--bg:#f0f2f8;--card:#fff;--border:#dde0ea;--text:#1a1d26;--sub:#7a80a
       </div>
       <div class="sett-desc">تظهر بجانب كل مبلغ في التطبيق</div>
     </div>
+    <div class="sett-row">
+      <div class="sett-top"><div class="sett-label">التقويم</div>
+        <select id="set-calendar" style="width:auto;padding:5px 8px">
+          <option value="hijri">هجري (أم القرى)</option>
+          <option value="greg">ميلادي</option>
+        </select>
+      </div>
+      <div class="sett-desc">يطبّق على كل التواريخ في التطبيق وملف الـ Excel</div>
+    </div>
   </div>
 
   <!-- ══ SETTINGS: TRACKER TOTAL ══ -->
@@ -1595,7 +1604,7 @@ var settings   = load('pt_settings',{
   sortBy:'Newest', highlightOver:500, compactMode:false, showRunningTotal:true,
   accentColor:'#f0a500', projectName:'وين فلوسي تروح', colorCat:false, hideTime:false,
   showCharts:true, budgetWarn:true, weekMode:'fixed', monthlyInTotal:false, navPos:'top', includeExtra:true, uiSize:'normal',
-  trackerTotal:'day', resetHour:5, monthlyBudget:0, mbAlert:{month:'',level:0}
+  trackerTotal:'day', resetHour:5, monthlyBudget:0, mbAlert:{month:'',level:0}, cal:'hijri'
 });
 // migrate older saved settings that predate monthly budget
 if(typeof settings.monthlyBudget==='undefined') settings.monthlyBudget=0;
@@ -1604,6 +1613,10 @@ if(!settings.mbAlert||typeof settings.mbAlert!=='object') settings.mbAlert={mont
 if(typeof settings.subShowSummary==='undefined') settings.subShowSummary=true;
 if(typeof settings.subShowPrice==='undefined') settings.subShowPrice=true;
 if(typeof settings.subShowDue==='undefined') settings.subShowDue=true;
+// calendar choice: 'hijri' (Umm al-Qura) or 'greg' (Gregorian)
+if(settings.cal!=='greg'&&settings.cal!=='hijri') settings.cal='hijri';
+// Date locale that follows the user's calendar choice — used everywhere dates are shown (app + Excel)
+function calLoc(){ return settings.cal==='greg' ? 'ar-SA-u-ca-gregory' : 'ar-SA-u-ca-islamic-umalqura'; }
 
 var filterCat   = '__ALL__';
 var filterType  = '__ALL__';   // '__ALL__' | 'out' (شراء) | 'in' (وصلني)
@@ -1761,7 +1774,7 @@ function renderEntries(){
   const td=today();
   grouped.forEach(([day,dayEntries])=>{
     const isToday=day===td;
-    const label=new Date(day+'T12:00:00').toLocaleDateString('ar-SA',{weekday:'long',day:'numeric',month:'long'});
+    const label=new Date(day+'T12:00:00').toLocaleDateString(calLoc(),{weekday:'long',day:'numeric',month:'long'});
     const dayAmt=dayEntries.reduce((s,e)=>s+e.amount,0);
     const hdr=document.createElement('div'); hdr.className='day-header';
     hdr.innerHTML=`<span class="${isToday?'day-label-today':''}">${isToday?'اليوم':label}</span><span class="day-total">${fmt(dayAmt)} ${settings.currency}</span>`;
@@ -1854,11 +1867,11 @@ function addEntry(isIncome){
     // REMOVED(extraIncome): extraIncome.push({id:Date.now()+1,amount:amt,source:desc||'وصلني',month:cur2});
     // REMOVED(extraIncome): // pt_extra no longer used
 
-    var dayLbl=customDay?(' · '+new Date(customDay+'T12:00:00').toLocaleDateString('ar-SA',{day:'numeric',month:'long'})):'';
+    var dayLbl=customDay?(' · '+new Date(customDay+'T12:00:00').toLocaleDateString(calLoc(),{day:'numeric',month:'long'})):'';
     showToast('✓ وصلك '+fmt(amt)+' '+settings.currency+(desc?' — '+desc:'')+dayLbl);
     renderSalary();
   } else {
-    var dayLbl=customDay?new Date(customDay+'T12:00:00').toLocaleDateString('ar-SA',{weekday:'long',day:'numeric',month:'long'}):'';
+    var dayLbl=customDay?new Date(customDay+'T12:00:00').toLocaleDateString(calLoc(),{weekday:'long',day:'numeric',month:'long'}):'';
     if(customDay){ showToast('تمت الإضافة ليوم '+dayLbl+' ✓'); }
     else if(!desc){ showIosNotif(); } else { showToast('تمت الإضافة ✓'); }
     // budget check after adding purchase
@@ -2056,7 +2069,7 @@ function renderDashboard(){
   // current month name — big & clear, replays its smooth entrance each open
   const mt=document.getElementById('dash-month-title');
   if(mt){
-    mt.textContent=new Date().toLocaleDateString('ar-SA',{month:'long',year:'numeric'});
+    mt.textContent=new Date().toLocaleDateString(calLoc(),{month:'long',year:'numeric'});
     mt.style.animation='none'; void mt.offsetWidth; mt.style.animation='';
   }
   const views=[{k:'Week',l:'أسبوع'},{k:'Month',l:'شهر'},{k:'All',l:'الكل'},{k:'custom',l:'مخصص'}];
@@ -2132,7 +2145,7 @@ function renderDashboard(){
       const pct=Math.round((amt/maxAmt)*100);
       const isTd=d===today();
       const wrap=document.createElement('div'); wrap.className='chart-bar-wrap';
-      wrap.innerHTML=`<div class="chart-bar" title="${fmt(amt)} ${CUR}" style="height:${pct}%;background:${isTd?'var(--acc)':'color-mix(in srgb,var(--acc) 45%,transparent)'};box-shadow:${isTd?'0 0 8px color-mix(in srgb,var(--acc) 60%,transparent)':'none'}"></div><div style="font-size:8px;color:var(--sub);white-space:nowrap">${new Date(d+'T12:00').toLocaleDateString('ar-SA',{day:'numeric',month:'numeric'})}</div>`;
+      wrap.innerHTML=`<div class="chart-bar" title="${fmt(amt)} ${CUR}" style="height:${pct}%;background:${isTd?'var(--acc)':'color-mix(in srgb,var(--acc) 45%,transparent)'};box-shadow:${isTd?'0 0 8px color-mix(in srgb,var(--acc) 60%,transparent)':'none'}"></div><div style="font-size:8px;color:var(--sub);white-space:nowrap">${new Date(d+'T12:00').toLocaleDateString(calLoc(),{day:'numeric',month:'numeric'})}</div>`;
       chart.appendChild(wrap);
     });
   }
@@ -2233,7 +2246,7 @@ function renderDashboard(){
   if(detailLevel>=2){
     const top=[...list].sort((a,b)=>b.amount-a.amount).slice(0,5);
     document.getElementById('dash-largest-list').innerHTML=top.length
-      ?top.map(e=>`<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);flex-direction:row-reverse"><div style="text-align:right"><div style="font-size:13px">${e.description}</div><div style="font-size:10px;color:var(--sub)">${new Date(e.date).toLocaleDateString('ar-SA',{day:'2-digit',month:'short'})} · ${e.category}</div></div><div style="font-weight:700;color:${catColor(e.category)};direction:ltr;white-space:nowrap">${fmt(e.amount)} <span style="font-size:11px;color:var(--sub)">${CUR}</span></div></div>`).join('')
+      ?top.map(e=>`<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);flex-direction:row-reverse"><div style="text-align:right"><div style="font-size:13px">${e.description}</div><div style="font-size:10px;color:var(--sub)">${new Date(e.date).toLocaleDateString(calLoc(),{day:'2-digit',month:'short'})} · ${e.category}</div></div><div style="font-weight:700;color:${catColor(e.category)};direction:ltr;white-space:nowrap">${fmt(e.amount)} <span style="font-size:11px;color:var(--sub)">${CUR}</span></div></div>`).join('')
       :'<div style="color:var(--sub);font-size:13px;text-align:center;padding:14px">لا توجد بيانات.</div>';
   }
 
@@ -2396,7 +2409,7 @@ function renderSubQuick(){
 // ── billing-cycle helpers ──
 function monthIdx(mk){const p=String(mk).split('-');return (+p[0])*12+(+p[1]-1);}        // "YYYY-MM" → absolute month number
 function monthIdxKey(idx){const y=Math.floor(idx/12),m=((idx%12)+12)%12;return y+'-'+String(m+1).padStart(2,'0');} // absolute month → "YYYY-MM"
-function monthIdxLabel(idx){const y=Math.floor(idx/12),m=((idx%12)+12)%12;return new Date(y,m,1).toLocaleDateString('ar-SA',{month:'long',year:'numeric'});}
+function monthIdxLabel(idx){const y=Math.floor(idx/12),m=((idx%12)+12)%12;return new Date(y,m,1).toLocaleDateString(calLoc(),{month:'long',year:'numeric'});}
 function cycleLabel(c){return c===12?'سنوي':c===6?'كل ٦ أشهر':c===3?'كل ٣ أشهر':'شهري';}
 // is the sub billed in the current month? + when it's next due
 function subDue(x,curIdx){
@@ -2413,7 +2426,7 @@ function renderSubs(){
   const emptyEl=document.getElementById('sub-empty');
   const curEl=document.getElementById('sub-cur-label'); if(curEl) curEl.textContent=settings.currency;
   const mt=document.getElementById('subs-month-title');
-  if(mt) mt.textContent='🔁 '+new Date().toLocaleDateString('ar-SA',{month:'long',year:'numeric'});
+  if(mt) mt.textContent='🔁 '+new Date().toLocaleDateString(calLoc(),{month:'long',year:'numeric'});
   card.style.display=subs.length?'block':'none';
   if(emptyEl) emptyEl.style.display=subs.length?'none':'block';
 
@@ -2645,6 +2658,7 @@ function applySettings(){
   document.getElementById('logo').textContent=settings.projectName||'وين فلوسي تروح';
   document.getElementById('set-proj-name').value=settings.projectName||'';
   document.getElementById('set-currency').value=settings.currency;
+  document.getElementById('set-calendar').value=settings.cal||'hijri';
   document.getElementById('set-sort').value=settings.sortBy;
   document.getElementById('set-highlight').value=settings.highlightOver;
   document.getElementById('highlight-sub').textContent=`${settings.highlightOver} ${settings.currency}`;
@@ -2718,8 +2732,8 @@ function exportXLSX(){
         i+1,
         e.description==='—'?'بدون وصف':e.description,
         e.amount, e.category,
-        d.toLocaleDateString('ar-SA',{year:'numeric',month:'2-digit',day:'2-digit'}),
-        d.toLocaleDateString('ar-SA',{weekday:'long'}),
+        d.toLocaleDateString(calLoc(),{year:'numeric',month:'2-digit',day:'2-digit'}),
+        d.toLocaleDateString(calLoc(),{weekday:'long'}),
         d.toLocaleTimeString('ar-SA',{hour:'2-digit',minute:'2-digit'}),
         isoDate(d).slice(0,7)
       ]);
@@ -2738,8 +2752,8 @@ function exportXLSX(){
     incomeEntries.forEach((e,i)=>{
       const d=new Date(e.date);
       rows.push([i+1,e.description==='—'?'وصلني':e.description,e.amount,
-        d.toLocaleDateString('ar-SA',{year:'numeric',month:'2-digit',day:'2-digit'}),
-        d.toLocaleDateString('ar-SA',{weekday:'long'}),isoDate(d).slice(0,7)]);
+        d.toLocaleDateString(calLoc(),{year:'numeric',month:'2-digit',day:'2-digit'}),
+        d.toLocaleDateString(calLoc(),{weekday:'long'}),isoDate(d).slice(0,7)]);
     });
     const total=incomeEntries.reduce((s,e)=>s+e.amount,0);
     rows.push(['','','','','','']);
@@ -2804,7 +2818,7 @@ function exportXLSX(){
     const monthCount={};purchases.forEach(e=>{const m=isoDate(e.date).slice(0,7);monthCount[m]=(monthCount[m]||0)+1;});
     Object.entries(monthMap).sort((a,b)=>a[0].localeCompare(b[0])).forEach(([m,amt])=>{
       const d=new Date(m+'-01');
-      rows.push([d.toLocaleDateString('ar-SA',{month:'long',year:'numeric'}),amt,monthCount[m]||0]);
+      rows.push([d.toLocaleDateString(calLoc(),{month:'long',year:'numeric'}),amt,monthCount[m]||0]);
     });
     const ws=XLSX.utils.aoa_to_sheet(rows);
     ws['!cols']=[{wch:22},{wch:16},{wch:14}];
@@ -2817,7 +2831,7 @@ function exportXLSX(){
     purchases.forEach(e=>{const d=isoDate(e.date);dayMap[d]=(dayMap[d]||0)+e.amount;dayCount[d]=(dayCount[d]||0)+1;});
     const rows=[['التاريخ','اليوم','الإنفاق ('+CUR+')','عدد الدفعات']];
     Object.entries(dayMap).sort((a,b)=>a[0].localeCompare(b[0])).forEach(([d,amt])=>{
-      rows.push([d,new Date(d+'T12:00').toLocaleDateString('ar-SA',{weekday:'long'}),amt,dayCount[d]||0]);
+      rows.push([d,new Date(d+'T12:00').toLocaleDateString(calLoc(),{weekday:'long'}),amt,dayCount[d]||0]);
     });
     const ws=XLSX.utils.aoa_to_sheet(rows);
     ws['!cols']=[{wch:14},{wch:14},{wch:14},{wch:12}];
@@ -2902,7 +2916,7 @@ function exportXLSX(){
       const d=new Date(e.date), iso=isoDate(d), isInc=!!e.isIncome;
       rows.push([
         iso, Number(iso.slice(0,4)), iso.slice(0,7), Number(iso.slice(8,10)),
-        d.toLocaleDateString('ar-SA',{weekday:'long'}),
+        d.toLocaleDateString(calLoc(),{weekday:'long'}),
         isInc?'دخل':'مصروف',
         isInc?'وصلني':e.category,
         e.description==='—'?'':e.description,
@@ -2928,7 +2942,7 @@ function exportXLSX(){
       const totalIncome=sal+b.income;
       const net=totalIncome-b.expense;
       const saveRate=totalIncome>0?((net/totalIncome)*100).toFixed(1)+'%':'—';
-      const label=new Date(m+'-01').toLocaleDateString('ar-SA',{month:'long',year:'numeric'});
+      const label=new Date(m+'-01').toLocaleDateString(calLoc(),{month:'long',year:'numeric'});
       rows.push([label, sal||0, b.income, totalIncome, b.expense, net, saveRate, b.expCnt]);
     });
     const ws=XLSX.utils.aoa_to_sheet(rows);
@@ -2946,7 +2960,7 @@ function exportXLSX(){
       catTotals[e.category]=(catTotals[e.category]||0)+e.amount;
     });
     const monthsArr=[...monthsSet].sort();
-    const header=['التصنيف',...monthsArr.map(m=>new Date(m+'-01').toLocaleDateString('ar-SA',{month:'short',year:'numeric'})),'الإجمالي ('+CUR+')'];
+    const header=['التصنيف',...monthsArr.map(m=>new Date(m+'-01').toLocaleDateString(calLoc(),{month:'short',year:'numeric'})),'الإجمالي ('+CUR+')'];
     const rows=[header];
     Object.entries(catTotals).sort((a,b)=>b[1]-a[1]).forEach(([cat,tot])=>{
       rows.push([cat,...monthsArr.map(m=>(cells[cat][m]||0)),tot]);
@@ -2963,7 +2977,7 @@ function exportXLSX(){
     let grandPaid=0;
     subs.forEach(s=>{
       const pm=(s.paidMonths||[]).slice().sort();
-      const paidLabels=pm.map(m=>new Date(m+'-01').toLocaleDateString('ar-SA',{month:'long',year:'numeric'}));
+      const paidLabels=pm.map(m=>new Date(m+'-01').toLocaleDateString(calLoc(),{month:'long',year:'numeric'}));
       const subPaid=(s.amount||0)*pm.length;
       grandPaid+=subPaid;
       rows.push([s.name,s.amount||0,'يوم '+(s.day||1),cycleLabel(s.cycle||1),pm.length,subPaid,paidLabels.join('، ')]);
@@ -2979,7 +2993,7 @@ function exportXLSX(){
     subs.forEach(s=>(s.paidMonths||[]).forEach(m=>allMonths.add(m)));
     const monthsArr=[...allMonths].sort();
     if(monthsArr.length){
-      const header=['الاشتراك',...monthsArr.map(m=>new Date(m+'-01').toLocaleDateString('ar-SA',{month:'short',year:'numeric'})),'المجموع ('+CUR+')'];
+      const header=['الاشتراك',...monthsArr.map(m=>new Date(m+'-01').toLocaleDateString(calLoc(),{month:'short',year:'numeric'})),'المجموع ('+CUR+')'];
       const mrows=[header];
       subs.forEach(s=>{
         const pm=s.paidMonths||[];
@@ -3370,6 +3384,7 @@ function init(){
   // monthly-in-total toggle removed (subscriptions removed)
 
   document.getElementById('set-currency').addEventListener('change',function(){settings.currency=this.value;save('pt_settings',settings);renderEntries();renderMonthly();applySettings();});
+  document.getElementById('set-calendar').addEventListener('change',function(){settings.cal=this.value;save('pt_settings',settings);renderEntries();renderDashboard();renderMonthly();renderSubs();showToast(this.value==='greg'?'✓ التقويم: ميلادي':'✓ التقويم: هجري');});
   document.getElementById('set-sort').addEventListener('change',function(){settings.sortBy=this.value;save('pt_settings',settings);renderEntries();});
   document.getElementById('set-proj-name').addEventListener('input',function(){settings.projectName=this.value;save('pt_settings',settings);document.getElementById('logo').textContent=this.value||'وين فلوسي تروح';});
   document.getElementById('set-week-mode').addEventListener('change',function(){settings.weekMode=this.value;save('pt_settings',settings);renderEntries();});
