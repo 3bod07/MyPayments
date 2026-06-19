@@ -1,0 +1,12 @@
+# Local tooling / editor config
+.claude/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Personal data exports — never publish these
+*.xlsx
+*.csv
+
+# Logs
+*.log
