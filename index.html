@@ -1096,7 +1096,7 @@ create policy "own" on user_data
     </div>
     <button class="btn btn-teal btn-full" id="btn-backup-export" style="margin-bottom:8px">💾 تصدير نسخة احتياطية</button>
     <button class="btn btn-teal-out btn-full" id="btn-backup-import">📤 استيراد نسخة احتياطية</button>
-    <input type="file" id="backup-file" accept="application/json,.json" style="display:none">
+    <input type="file" id="backup-file" accept="application/json,.json" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);border:0;opacity:0">
   </div>
 
   <div class="card">
@@ -1652,6 +1652,7 @@ function _applyCloudData(j){
 
 // Save to Supabase (upsert one row per user)
 function _cloudSave(){
+  if(_suspendSave)return;
   var sb=_sbInit();
   if(!sb||!_sbUser)return;
   sb.from('user_data').upsert({
@@ -1704,8 +1705,14 @@ function deleteKey(k){
   try{sessionStorage.removeItem(k);}catch(e){}
 }
 
+// When true, all auto-save paths are frozen so an in-progress import
+// (which has already written the new data to storage) can reload the page
+// WITHOUT the unload handlers overwriting it with the old in-memory data.
+var _suspendSave=false;
+
 // Save ALL current state immediately (sync) — for iOS background
 function _saveAll(){
+  if(_suspendSave)return;
   try{
     if(typeof entries!=='undefined'){var j=JSON.stringify(entries);localStorage.setItem('pt_entries',j);sessionStorage.setItem('pt_entries',j);}
     if(typeof cats!=='undefined'){var j=JSON.stringify(cats);localStorage.setItem('pt_cats',j);sessionStorage.setItem('pt_cats',j);}
@@ -3392,17 +3399,35 @@ function exportXLSX(){
 // ════════════════════════════════════════════════
 // JSON BACKUP — full export / importable restore
 // ════════════════════════════════════════════════
-var BACKUP_KEYS=['pt_entries','pt_cats','pt_budgets','pt_monthly','pt_monthly_desc','pt_templates','pt_settings','pt_debts','pt_subs','pt_salary','pt_lang','pt_catdescs','pt_extra'];
+// Every key the app stores is namespaced with "pt_". We back up by prefix,
+// NOT by a hand-maintained list, so any new field/section added in the future
+// is included in the backup automatically — no edits to this code ever needed.
+var BACKUP_PREFIX='pt_';
+function _isBackupKey(k){ return typeof k==='string' && k.indexOf(BACKUP_PREFIX)===0; }
+
+// Read EVERYTHING the app has stored (all pt_* keys), preferring localStorage
+// and filling any gaps from sessionStorage (iOS sometimes clears localStorage).
+function _collectAllData(){
+  var data={},k,i,v;
+  try{
+    for(i=0;i<localStorage.length;i++){
+      k=localStorage.key(i);
+      if(_isBackupKey(k)){ v=localStorage.getItem(k); if(v!==null&&v!=='null') data[k]=v; }
+    }
+  }catch(e){}
+  try{
+    for(i=0;i<sessionStorage.length;i++){
+      k=sessionStorage.key(i);
+      if(_isBackupKey(k)&&data[k]===undefined){ v=sessionStorage.getItem(k); if(v!==null&&v!=='null') data[k]=v; }
+    }
+  }catch(e){}
+  return data;
+}
 
 function exportBackup(){
   try{
-    var data={};
-    BACKUP_KEYS.forEach(function(k){
-      var v=null; try{v=localStorage.getItem(k);}catch(e){}
-      if(v===null||v==='null'){try{v=sessionStorage.getItem(k);}catch(e){}}
-      if(v!==null&&v!=='null') data[k]=v;
-    });
-    var payload={app:'mypay',type:'backup',version:1,exportedAt:new Date().toISOString(),data:data};
+    var data=_collectAllData();
+    var payload={app:'mypay',type:'backup',version:2,exportedAt:new Date().toISOString(),data:data};
     var blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
     var url=URL.createObjectURL(blob);
     var a=document.createElement('a');
@@ -3418,15 +3443,18 @@ function importBackup(file){
   reader.onload=function(ev){
     var payload;
     try{ payload=JSON.parse(ev.target.result); }catch(e){ showToast('الملف غير صالح — ليس JSON','err'); return; }
-    // Accept wrapped {app,data:{pt_*}} or a raw {pt_*} object
+    // Accept wrapped {app,data:{pt_*}} or a raw {pt_*} object.
     var data=(payload&&payload.data&&typeof payload.data==='object')?payload.data:null;
     if(!data&&payload&&typeof payload==='object'){
       var raw={}, found=false;
-      BACKUP_KEYS.forEach(function(k){ if(payload[k]!==undefined){raw[k]=typeof payload[k]==='string'?payload[k]:JSON.stringify(payload[k]);found=true;} });
+      Object.keys(payload).forEach(function(k){
+        if(_isBackupKey(k)){ raw[k]=typeof payload[k]==='string'?payload[k]:JSON.stringify(payload[k]); found=true; }
+      });
       if(found) data=raw;
     }
     if(!data){ showToast('الملف لا يحتوي على نسخة احتياطية صالحة','err'); return; }
-    var keys=Object.keys(data).filter(function(k){return BACKUP_KEYS.indexOf(k)>=0;});
+    // Restore EVERY pt_* key found — including fields added in future versions.
+    var keys=Object.keys(data).filter(function(k){return _isBackupKey(k)&&typeof data[k]==='string';});
     if(!keys.length){ showToast('لا توجد بيانات معروفة في الملف','err'); return; }
     var nEntries=0; try{ nEntries=(JSON.parse(data['pt_entries']||'[]')||[]).length; }catch(e){}
     var when=''; try{ if(payload.exportedAt) when=new Date(payload.exportedAt).toLocaleDateString('ar'); }catch(e){}
@@ -3435,7 +3463,15 @@ function importBackup(file){
       body:'الملف يحتوي على '+nEntries+' دفعة'+(when?(' — صُدّر بتاريخ '+when):'')+'.',
       confirmLabel:'استيراد واستبدال',confirmClass:'btn btn-err',
       fn:function(){
-        keys.forEach(function(k){ try{localStorage.setItem(k,data[k]);sessionStorage.setItem(k,data[k]);}catch(e){} });
+        // Freeze every auto-save path BEFORE writing, so the reload below
+        // can't trigger an unload-save that overwrites the imported data.
+        _suspendSave=true;
+        var ok=true;
+        keys.forEach(function(k){ try{localStorage.setItem(k,data[k]);sessionStorage.setItem(k,data[k]);}catch(e){ok=false;} });
+        if(!ok){ _suspendSave=false; showToast('تعذّر حفظ البيانات على هذا الجهاز','err'); return; }
+        // Flags read on next boot: show success message + let imported data
+        // win over any old cloud copy (push up instead of pulling down).
+        try{ sessionStorage.setItem('pt_import_ok','1'); sessionStorage.setItem('pt_imported','1'); }catch(e){}
         showToast('✓ تم الاستيراد — جارِ إعادة التحميل…');
         setTimeout(function(){location.reload();},800);
       }
@@ -4131,6 +4167,14 @@ function init(){
   renderSubs();
   renderSalary();
   handleQuickAdd();   // process ?amt=…&cat=… from iPhone Shortcuts, after data is loaded
+  // Confirm a successful import after the reload (flag set by importBackup).
+  try{
+    if(sessionStorage.getItem('pt_import_ok')==='1'){
+      sessionStorage.removeItem('pt_import_ok');
+      var _ne=(typeof entries!=='undefined'&&entries)?entries.length:0;
+      showToast('✓ تم استرجاع نسختك الاحتياطية ('+_ne+' دفعة)','ok',4200);
+    }
+  }catch(e){}
 }
 // Sync from IndexedDB first (in case localStorage was cleared by iOS)
 _restoreIfNeeded();
@@ -4146,11 +4190,17 @@ function _reloadVars(){
   catDescs=load('pt_catdescs',{...DEFAULT_CATDESCS});
 }
 _reloadVars();
-// If Supabase is configured + user has session, pull cloud data then init
+// Did we just reload right after a backup import? If so, the imported data is
+// already in storage AND in memory — it must take priority over any old cloud
+// copy, so we push it UP to the cloud instead of pulling the cloud DOWN.
+var _justImported=false;
+try{ _justImported=sessionStorage.getItem('pt_imported')==='1'; sessionStorage.removeItem('pt_imported'); }catch(e){}
+// If Supabase is configured + user has session, sync cloud then init
 if(SB_URL&&SB_KEY&&typeof supabase!=='undefined'){
   _sbCheckSession(function(user){
     if(user){
-      _cloudLoad(function(ok){ if(ok)_reloadVars(); init(); });
+      if(_justImported){ _cloudSave(); init(); }
+      else { _cloudLoad(function(ok){ if(ok)_reloadVars(); init(); }); }
     } else {
       init();
     }
