@@ -1711,7 +1711,7 @@ var catDescs  = load('pt_catdescs',{});
 // UTILS
 // ════════════════════════════════════════════════
 var toW = s=>String(s).replace(/[٠١٢٣٤٥٦٧٨٩]/g,d=>d.charCodeAt(0)-1632).replace(/[۰۱۲۳۴۵۶۷۸۹]/g,d=>d.charCodeAt(0)-1776).replace(/[^0-9.]/g,'');
-var fmt  = n=>Number(n).toLocaleString('en-SA',{minimumFractionDigits:2,maximumFractionDigits:2});
+var fmt  = n=>{ var r=Math.round(Number(n)*100)/100; var whole = r%1===0; return r.toLocaleString('en-SA',{minimumFractionDigits:whole?0:2,maximumFractionDigits:2}); };
 var isoDate = d=>new Date(d).toISOString().slice(0,10);
 var today = ()=>isoDate(new Date());
 
