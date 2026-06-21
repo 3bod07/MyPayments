@@ -62,6 +62,9 @@ body>*:not(style):not(script){position:relative;z-index:1}
 .nav-tab:active{transform:scale(.93)}
 .nav-tab.active{background:color-mix(in srgb,var(--acc) 16%,transparent);border-color:color-mix(in srgb,var(--acc) 38%,transparent);color:var(--acc);box-shadow:0 2px 12px var(--glow),0 1px 0 var(--glass-hi) inset}
 .nav-tab .lbl{font-size:7px;font-weight:700}
+.nav-tab .nav-ic{line-height:0}
+.nav-tab .nav-ic svg{width:18px;height:18px;display:block;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+body.compact-mode .nav-tab .nav-ic svg{width:16px;height:16px}
 
 /* PAGES */
 .page{display:none;padding:12px 12px 80px;max-width:600px;margin:0 auto}
@@ -83,7 +86,7 @@ body.compact-mode .card .sec-title{font-size:11px}
 .page.active{display:block;animation:pageIn .34s cubic-bezier(.2,.8,.2,1) both}
 @keyframes pageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 body.bottom-nav-mode{padding-bottom:0}
-body.bottom-nav-mode .page{padding-bottom:100px}
+body.bottom-nav-mode .page{padding-bottom:calc(86px + env(safe-area-inset-bottom))}
 body.bottom-nav-mode #nav .nav-tabs{display:none}
 
 /* CARD */
@@ -272,13 +275,21 @@ select{cursor:pointer;direction:rtl}
 .pie-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
 
 /* BOTTOM NAV */
-#bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:100;background:var(--nav);border-top:1px solid var(--navb);padding:8px 0 max(8px,env(safe-area-inset-bottom));align-items:center;justify-content:space-around;backdrop-filter:blur(26px) saturate(1.6);-webkit-backdrop-filter:blur(26px) saturate(1.6);box-shadow:0 -1px 0 var(--glass-hi) inset,0 -8px 30px rgba(2,6,14,.3)}
+#bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:9000;
+  background:var(--nav);border-top:1px solid var(--navb);
+  padding:8px 6px calc(8px + env(safe-area-inset-bottom));
+  align-items:center;justify-content:space-around;
+  backdrop-filter:blur(26px) saturate(1.6);-webkit-backdrop-filter:blur(26px) saturate(1.6);
+  box-shadow:0 -1px 0 var(--glass-hi) inset,0 -8px 30px rgba(2,6,14,.3);
+  transform:translateZ(0);-webkit-transform:translateZ(0)}
 #bottom-nav.active{display:flex}
-.bnav-btn{background:transparent;border:none;cursor:pointer;color:var(--sub);display:flex;flex-direction:column;align-items:center;gap:3px;padding:4px 8px;font-family:var(--ff);transition:color .2s,transform .12s;flex:1;min-width:0}
+.bnav-btn{background:transparent;border:none;cursor:pointer;color:var(--sub);display:flex;flex-direction:column;align-items:center;gap:3px;padding:5px 4px;border-radius:13px;font-family:var(--ff);transition:color .2s,background .2s,transform .12s;flex:1;min-width:0}
 .bnav-btn:active{transform:scale(.9)}
-.bnav-btn.active{color:var(--acc)}
+.bnav-btn.active{color:var(--acc);background:color-mix(in srgb,var(--acc) 14%,transparent)}
 .bnav-btn.active .bnav-icon{filter:drop-shadow(0 0 10px var(--glow))}
-.bnav-icon{font-size:22px;line-height:1;transition:filter .2s}
+.bnav-icon{line-height:0;transition:filter .2s}
+.bnav-icon svg{width:23px;height:23px;display:block;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.bnav-lbl{font-size:9px;font-weight:700;line-height:1;white-space:nowrap}
 
 /* IOS NOTIF */
 #ios-notif{position:fixed;top:-160px;left:50%;transform:translateX(-50%);z-index:10000;background:#1a1a2e;border:1px solid rgba(255,255,255,.18);border-radius:20px;padding:14px 16px;max-width:340px;width:92vw;display:flex;align-items:flex-start;gap:12px;flex-direction:row-reverse;box-shadow:0 12px 40px rgba(0,0,0,.6);transition:top .45s cubic-bezier(.34,1.56,.64,1);font-family:var(--ff);direction:rtl}
@@ -353,12 +364,12 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 10px var(--glow),0 1px 3p
 <div id="nav">
   <div id="logo">وين فلوسي تروح</div>
   <div class="nav-tabs">
-    <button class="nav-tab active" data-page="tracker">💳<span class="lbl">تتبع</span></button>
-    <button class="nav-tab" data-page="dashboard">📊<span class="lbl">إحصائيات</span></button>
-    <button class="nav-tab" data-page="monthly">💰<span class="lbl">ديون</span></button>
-    <button class="nav-tab" data-page="subs">🔁<span class="lbl">اشتراكات</span></button>
-    <button class="nav-tab" data-page="cats">🏷<span class="lbl">تصنيفات</span></button>
-    <button class="nav-tab" data-page="settings">⚙️<span class="lbl">إعدادات</span></button>
+    <button class="nav-tab active" data-page="tracker"><span class="nav-ic"><svg viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span><span class="lbl">تتبع</span></button>
+    <button class="nav-tab" data-page="dashboard"><span class="nav-ic"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg></span><span class="lbl">إحصائيات</span></button>
+    <button class="nav-tab" data-page="monthly"><span class="nav-ic"><svg viewBox="0 0 24 24"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg></span><span class="lbl">ديون</span></button>
+    <button class="nav-tab" data-page="subs"><span class="nav-ic"><svg viewBox="0 0 24 24"><path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/></svg></span><span class="lbl">اشتراكات</span></button>
+    <button class="nav-tab" data-page="cats"><span class="nav-ic"><svg viewBox="0 0 24 24"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r=".5" fill="currentColor" stroke="none"/></svg></span><span class="lbl">تصنيفات</span></button>
+    <button class="nav-tab" data-page="settings"><span class="nav-ic"><svg viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg></span><span class="lbl">إعدادات</span></button>
   </div>
 </div>
 
@@ -428,7 +439,7 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 10px var(--glow),0 1px 3p
 
   <!-- ══ SALARY BLOCK (isolated green section) ══ -->
   <div style="margin-bottom:20px;border-radius:20px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.3)">
-    <div style="background:linear-gradient(135deg,#052e1c,#064e3b,#065f46);padding:18px 18px 16px;display:flex;align-items:center;justify-content:space-between;flex-direction:row-reverse;position:relative;overflow:hidden;cursor:pointer" onclick="var f=document.getElementById('salary-edit-form');f.style.display=f.style.display==='none'?'block':'none';if(f.style.display==='block')document.getElementById('salary-inp').focus()">
+    <div style="background:linear-gradient(135deg,#052e1c,#064e3b,#065f46);padding:18px 18px 16px;display:flex;align-items:center;justify-content:space-between;flex-direction:row-reverse;position:relative;overflow:hidden;cursor:pointer" onclick="openSalaryMenu()">
       <div style="position:absolute;inset:0;pointer-events:none;background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.68' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='.09'/%3E%3C/svg%3E&quot;)"></div>
       <div style="text-align:right;position:relative">
         <div style="font-size:9px;color:rgba(255,255,255,.55);font-weight:700;margin-bottom:3px;letter-spacing:1.5px;text-transform:uppercase">رصيد الشهر</div>
@@ -444,15 +455,48 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 10px var(--glow),0 1px 3p
       <span style="font-size:11px;color:rgba(255,255,255,.6)" id="salary-remain-label">المتبقي</span>
       <span style="font-size:16px;font-weight:800;color:#34d399;margin-right:auto" id="salary-remain-val">—</span>
     </div>
-    <div id="salary-edit-form" style="display:none;background:#041c10;border-top:1px solid rgba(52,211,153,.15);padding:14px 18px">
-      <div style="font-size:10px;color:rgba(52,211,153,.7);font-weight:700;margin-bottom:10px;text-align:right;letter-spacing:.5px">💵 تعديل الراتب</div>
-      <div style="display:flex;align-items:center;gap:10px;flex-direction:row-reverse;background:rgba(52,211,153,.07);border:1.5px solid rgba(52,211,153,.25);border-radius:14px;padding:4px 14px;margin-bottom:10px">
-        <span style="font-size:12px;font-weight:700;color:#34d399;opacity:.7;flex-shrink:0" id="salary-cur-label">SAR</span>
-        <input id="salary-inp" type="text" inputmode="decimal" placeholder="0.00" autocomplete="off" style="background:transparent;border:none;font-size:28px;font-weight:700;color:#e0fdf4;text-align:center;direction:ltr;padding:6px 0;width:100%;outline:none">
+    <div id="salary-note-bar" style="display:none;background:#031912;border-top:1px solid rgba(52,211,153,.12);padding:9px 18px;flex-direction:row-reverse;align-items:flex-start;gap:7px">
+      <span style="font-size:13px;line-height:1.4;flex-shrink:0">📝</span>
+      <span style="font-size:12px;color:rgba(255,255,255,.72);line-height:1.5;text-align:right;flex:1;white-space:pre-wrap;word-break:break-word" id="salary-note-text"></span>
+    </div>
+  </div>
+
+  <!-- ══ SALARY POPUP (menu → form) ══ -->
+  <div class="modal" id="salary-modal">
+    <div class="modal-box">
+      <!-- STEP 1: MENU -->
+      <div id="sal-step-menu">
+        <div class="modal-icon">💰</div>
+        <div class="modal-title" style="text-align:center">الراتب</div>
+        <div class="modal-body" style="text-align:center;margin-bottom:18px" id="sal-menu-sub">راتب هذا الشهر</div>
+        <button class="btn" style="width:100%;background:#047857;border-color:#065f46;color:#fff;margin-bottom:10px;padding:13px;font-size:14px" onclick="salaryShowForm('new')">💵 نزّل الراتب الجديد؟</button>
+        <button class="btn" id="sal-opt-edit" style="width:100%;margin-bottom:14px;padding:13px;font-size:14px" onclick="salaryShowForm('edit')">✏️ تعديل الراتب الحالي</button>
+        <button class="btn btn-sub" style="width:100%" onclick="closeSalaryModal()">إغلاق</button>
       </div>
-      <div style="display:flex;gap:8px;flex-direction:row-reverse">
-        <button class="btn" style="flex:1;background:#047857;border-color:#065f46;color:#fff;font-size:13px" id="btn-save-salary">حفظ</button>
-        <button style="flex-shrink:0;background:transparent;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.6);border-radius:10px;padding:8px 14px;cursor:pointer;font-family:var(--ff);font-size:12px" id="btn-clear-salary">مسح</button>
+      <!-- STEP 2: FORM -->
+      <div id="sal-step-form" style="display:none">
+        <div class="modal-icon" id="sal-form-icon">💵</div>
+        <div class="modal-title" id="sal-form-title" style="text-align:center">نزّل الراتب الجديد</div>
+        <div class="modal-body" id="sal-form-month" style="text-align:center;margin-bottom:16px"></div>
+
+        <div style="font-size:11px;color:var(--sub);margin-bottom:5px;text-align:right">المبلغ</div>
+        <div style="display:flex;align-items:center;gap:8px;flex-direction:row-reverse;margin-bottom:14px;background:var(--inp);border:1px solid var(--inpb);border-radius:var(--r-sm);padding:4px 12px">
+          <span style="font-size:13px;font-weight:700;color:var(--acc);flex-shrink:0" id="sal-form-cur">SAR</span>
+          <input id="sal-form-amt" type="text" inputmode="decimal" placeholder="0.00" autocomplete="off" oninput="salNorm(this)" style="background:transparent;border:none;direction:ltr;text-align:center;font-size:24px;font-weight:700;flex:1;padding:6px 0">
+        </div>
+
+        <div style="font-size:11px;color:var(--sub);margin-bottom:5px;text-align:right">تاريخ نزول الراتب</div>
+        <input id="sal-form-date" type="date" style="direction:ltr;text-align:center;margin-bottom:4px">
+        <div style="font-size:10px;color:var(--sub);margin-bottom:14px;text-align:right;opacity:.8">عادةً بين يوم ٢٤ و٣١ من الشهر — يمكنك تغييره</div>
+
+        <div style="font-size:11px;color:var(--sub);margin-bottom:5px;text-align:right">ملاحظات (اختياري)</div>
+        <textarea id="sal-form-note" rows="2" placeholder="اكتب ملاحظة عن راتب هذا الشهر..." style="background:var(--inp);border:1px solid var(--inpb);border-radius:var(--r-sm);padding:10px 13px;color:var(--text);font-size:15px;font-family:var(--ff);width:100%;outline:none;resize:vertical;direction:rtl;text-align:right;margin-bottom:16px"></textarea>
+
+        <div class="row">
+          <button class="btn btn-sub" style="flex:1" onclick="closeSalaryModal()">إلغاء</button>
+          <button class="btn" style="flex:1" onclick="salarySaveForm()">حفظ</button>
+        </div>
+        <button class="btn btn-sub" id="sal-form-del" style="width:100%;margin-top:10px;color:var(--err);border-color:color-mix(in srgb,var(--err) 40%,transparent);display:none" onclick="salaryClearCurrent()">🗑 حذف راتب هذا الشهر</button>
       </div>
     </div>
   </div>
@@ -660,6 +704,16 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 10px var(--glow),0 1px 3p
         <option value="6">📆 كل ٦ أشهر</option>
         <option value="12">📆 سنوي — كل ١٢ شهر</option>
       </select>
+      <!-- optional description -->
+      <div style="font-size:10px;color:var(--sub);margin-bottom:4px;text-align:right">وصف اختياري</div>
+      <input id="sub-desc" type="text" inputmode="text" placeholder="ملاحظة قصيرة (اختياري)" autocomplete="off" style="text-align:right;margin-bottom:8px">
+      <!-- start date (past dates allowed) -->
+      <div style="font-size:10px;color:var(--sub);margin-bottom:4px;text-align:right">تاريخ بدء الاشتراك</div>
+      <input id="sub-start" type="date" style="margin-bottom:8px;direction:ltr;text-align:right">
+      <!-- end / renewal date — auto-calculated, or override -->
+      <div style="font-size:10px;color:var(--sub);margin-bottom:4px;text-align:right;line-height:1.5">تاريخ الانتهاء — يُحسب تلقائياً من تاريخ البدء والدورة، أو اختر تاريخاً محدداً</div>
+      <input id="sub-end" type="date" style="margin-bottom:4px;direction:ltr;text-align:right">
+      <div id="sub-end-preview" style="font-size:11px;color:var(--teal);margin-bottom:10px;text-align:right;min-height:14px;line-height:1.5"></div>
       <button class="btn btn-full" id="btn-add-sub">إضافة اشتراك</button>
       <!-- quick add presets -->
       <div style="font-size:12px;color:var(--sub);font-weight:700;margin:14px 0 2px;text-align:right">⚡ اشتراكات شائعة — إضافة سريعة</div>
@@ -1111,6 +1165,20 @@ create policy "own" on user_data
   </div>
 </div>
 
+<!-- EDIT CATEGORY MODAL -->
+<div class="modal" id="edit-cat-modal">
+  <div class="modal-box">
+    <div class="modal-icon">✏️</div>
+    <div class="modal-title">تعديل التصنيف</div>
+    <input id="ec-name" type="text" inputmode="text" placeholder="اسم التصنيف" style="margin-bottom:8px">
+    <input id="ec-desc" type="text" inputmode="text" placeholder="وصف اختياري للتصنيف (اختياري)" style="margin-bottom:16px">
+    <div class="row">
+      <button class="btn btn-sub" style="flex:1" id="ec-cancel">إلغاء</button>
+      <button class="btn" style="flex:1" id="ec-save">حفظ</button>
+    </div>
+  </div>
+</div>
+
 <!-- GENERIC CONFIRM MODAL -->
 <div class="modal" id="confirm-modal">
   <div class="modal-box">
@@ -1304,6 +1372,39 @@ create policy "own" on user_data
   </div>
 </div>
 
+<!-- EDIT SUBSCRIPTION -->
+<div class="modal" id="sub-edit-modal">
+  <div class="modal-box" style="max-height:88vh;overflow-y:auto">
+    <div class="modal-icon">✏️</div>
+    <div class="modal-title">تعديل الاشتراك</div>
+    <div class="modal-body" style="margin-bottom:14px">عدّل أي حقل ثم احفظ.</div>
+    <div style="font-size:10px;color:var(--sub);margin-bottom:4px;text-align:right">اسم الاشتراك</div>
+    <input id="se-name" type="text" inputmode="text" autocomplete="off" style="text-align:right;margin-bottom:8px">
+    <div style="font-size:10px;color:var(--sub);margin-bottom:4px;text-align:right">المبلغ الشهري</div>
+    <input id="se-amt" type="text" inputmode="decimal" placeholder="اختياري" autocomplete="off" style="text-align:center;direction:ltr;margin-bottom:8px">
+    <div style="font-size:10px;color:var(--sub);margin-bottom:4px;text-align:right">وصف اختياري</div>
+    <input id="se-desc" type="text" inputmode="text" placeholder="ملاحظة قصيرة (اختياري)" autocomplete="off" style="text-align:right;margin-bottom:8px">
+    <div style="font-size:10px;color:var(--sub);margin-bottom:4px;text-align:right">يوم الخصم (١-٣١)</div>
+    <input id="se-day" type="number" min="1" max="31" inputmode="numeric" style="text-align:center;direction:ltr;margin-bottom:8px">
+    <div style="font-size:10px;color:var(--sub);margin-bottom:4px;text-align:right">دورة الفوترة</div>
+    <select id="se-cycle" style="margin-bottom:8px">
+      <option value="1">🔁 شهري — كل شهر</option>
+      <option value="3">📆 كل ٣ أشهر</option>
+      <option value="6">📆 كل ٦ أشهر</option>
+      <option value="12">📆 سنوي — كل ١٢ شهر</option>
+    </select>
+    <div style="font-size:10px;color:var(--sub);margin-bottom:4px;text-align:right">تاريخ بدء الاشتراك</div>
+    <input id="se-start" type="date" style="direction:ltr;text-align:right;margin-bottom:8px">
+    <div style="font-size:10px;color:var(--sub);margin-bottom:4px;text-align:right;line-height:1.5">تاريخ الانتهاء — يُحسب تلقائياً، أو اختر تاريخاً محدداً</div>
+    <input id="se-end" type="date" style="direction:ltr;text-align:right;margin-bottom:4px">
+    <div id="se-end-preview" style="font-size:11px;color:var(--teal);margin-bottom:16px;text-align:right;min-height:14px;line-height:1.5"></div>
+    <div class="row">
+      <button class="btn btn-sub" style="flex:1" id="se-cancel">إلغاء</button>
+      <button class="btn" style="flex:1" id="se-save">حفظ</button>
+    </div>
+  </div>
+</div>
+
 <!-- SUB HISTORY (past-month payments) -->
 <div class="modal" id="sub-hist-modal">
   <div class="modal-box">
@@ -1364,12 +1465,12 @@ create policy "own" on user_data
 
 <!-- BOTTOM NAV -->
 <div id="bottom-nav">
-  <button class="bnav-btn active" data-page="tracker"><span class="bnav-icon">💳</span></button>
-  <button class="bnav-btn" data-page="dashboard"><span class="bnav-icon">📊</span></button>
-  <button class="bnav-btn" data-page="monthly"><span class="bnav-icon">💰</span></button>
-  <button class="bnav-btn" data-page="subs"><span class="bnav-icon">🔁</span></button>
-  <button class="bnav-btn" data-page="cats"><span class="bnav-icon">🏷</span></button>
-  <button class="bnav-btn" data-page="settings"><span class="bnav-icon">⚙️</span></button>
+  <button class="bnav-btn active" data-page="tracker"><span class="bnav-icon"><svg viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span><span class="bnav-lbl">تتبع</span></button>
+  <button class="bnav-btn" data-page="dashboard"><span class="bnav-icon"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg></span><span class="bnav-lbl">إحصائيات</span></button>
+  <button class="bnav-btn" data-page="monthly"><span class="bnav-icon"><svg viewBox="0 0 24 24"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg></span><span class="bnav-lbl">ديون</span></button>
+  <button class="bnav-btn" data-page="subs"><span class="bnav-icon"><svg viewBox="0 0 24 24"><path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/></svg></span><span class="bnav-lbl">اشتراكات</span></button>
+  <button class="bnav-btn" data-page="cats"><span class="bnav-icon"><svg viewBox="0 0 24 24"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r=".5" fill="currentColor" stroke="none"/></svg></span><span class="bnav-lbl">تصنيفات</span></button>
+  <button class="bnav-btn" data-page="settings"><span class="bnav-icon"><svg viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg></span><span class="bnav-lbl">إعدادات</span></button>
 </div>
 <script>
 // ════════════════════════════════════════════════
@@ -1404,7 +1505,8 @@ create policy "own" on user_data
 // ════════════════════════════════════════════════
 // STATE
 // ════════════════════════════════════════════════
-const DEFAULT_CATS = ["☕️ مقاهي","🌯 مطاعم","⛽️ بنزين","🛍️ مشتريات","📱 اشتراكات","♻️ تقاسيط"];
+const DEFAULT_CATS = ["☕ مقاهي","🌯 مطاعم","🛍️ مشتريات","⛽ بنزين","📱 اشتراكات","📩 حوالة","♻️ تقاسيط","📶 نت"];
+const DEFAULT_CATDESCS = {"📩 حوالة":"اذا حولت لشخص"};
 const CAT_COLORS   = ["#f0a500","#38bdf8","#a78bfa","#f472b6","#34d399","#fb923c","#f87171","#22d3ee","#a3e635","#e879f9","#818cf8","#fbbf24"];
 const ACCENTS = [
   // ── دافئة ──
@@ -1697,6 +1799,7 @@ var detailLevel = 1;
 var pendingAction = null;
 var dragSrc=null, dragTarget=null;
 var budgetCatIdx = null;
+var editCatIdx = null;
 var msEntriesMode=false, msSelectedEntries=new Set();
 var msCatsMode=false, msSelectedCats=new Set();
 var msMonMode=false, msSelectedMon=new Set();
@@ -1704,8 +1807,27 @@ var msDebtMode=false, msSelectedDebt=new Set();
 var editEntryId=null;
 var debts     = load('pt_debts',[]);
 var subs      = load('pt_subs',[]);
-var salary    = load('pt_salary',{amount:0, month:''});
-var catDescs  = load('pt_catdescs',{});
+// ── Per-month salary store ──
+// Storage shape (NEW): { 'YYYY-MM': {amount:Number, date:'YYYY-MM-DD', note:String}, ... }
+// One independent record per month. Migrates the OLD single-month shape {amount,month} automatically.
+function migrateSalary(raw){
+  if(!raw || typeof raw!=='object' || Array.isArray(raw)) return {};
+  if('amount' in raw && 'month' in raw){            // OLD single-month shape → convert, lose nothing
+    var out={};
+    if(raw.month && Number(raw.amount)>0){ out[raw.month]={amount:Number(raw.amount), date:'', note:''}; }
+    return out;
+  }
+  return raw;                                        // already the new per-month map
+}
+function salMonthKey(){ return isoDate(new Date()).slice(0,7); }   // 'YYYY-MM' for today
+function getSalary(m){ var r=salary && salary[m]; return {amount:(r&&r.amount)||0, date:(r&&r.date)||'', note:(r&&r.note)||''}; }
+function setSalaryRec(m,amount,date,note){
+  if(!(Number(amount)>0)){ delete salary[m]; }      // amount 0/blank → remove this month's record
+  else { salary[m]={amount:Number(amount), date:date||'', note:(note||'').trim()}; }
+  save('pt_salary',salary);
+}
+var salary    = migrateSalary(load('pt_salary',{}));
+var catDescs  = load('pt_catdescs',{...DEFAULT_CATDESCS});
 
 // ════════════════════════════════════════════════
 // UTILS
@@ -2088,8 +2210,10 @@ function renderCatsPage(){
     openConfirm({icon:'🏷',title:`حذف "${cats[i]}"؟`,body:'الدفعات المسجّلة لن تتأثر.',fn:()=>{var _bk=cats.slice();cats.splice(i,1);save('pt_cats',cats);renderCatsPage();renderCatSelects();renderPills();renderEntries();showUndo('تم حذف التصنيف',()=>{cats=_bk;save('pt_cats',cats);renderCatsPage();renderCatSelects();renderPills();renderEntries();});}});
   }));
   el.querySelectorAll('.cat-edit').forEach(b=>b.addEventListener('click',()=>{
-    const i=+b.dataset.i;const nv=prompt('تعديل:',cats[i]);
-    if(nv&&nv.trim()){cats[i]=nv.trim();save('pt_cats',cats);renderCatsPage();renderCatSelects();showToast('تم التعديل');}
+    editCatIdx=+b.dataset.i;
+    document.getElementById('ec-name').value=cats[editCatIdx];
+    document.getElementById('ec-desc').value=(catDescs&&catDescs[cats[editCatIdx]])||'';
+    document.getElementById('edit-cat-modal').classList.add('open');
   }));
   el.querySelectorAll('.cat-budget').forEach(b=>b.addEventListener('click',()=>{
     const i=+b.dataset.i; budgetCatIdx=i;
@@ -2489,6 +2613,63 @@ function subDue(x,curIdx){
   const rem=(((curIdx-start)%cyc)+cyc)%cyc;
   return {due:rem===0, cyc, nextIdx:rem===0?curIdx:curIdx+(cyc-rem)};
 }
+// ── description / start-date / end-date helpers ──
+function escHtml(s){return String(s).replace(/[&<>"']/g,function(c){return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];});}
+// add n months keeping the day-of-month (clamped to last day of short months)
+function addMonths(date,n,anchorDay){
+  const d=new Date(date.getTime());
+  d.setDate(1);
+  d.setMonth(d.getMonth()+n);
+  const lastDay=new Date(d.getFullYear(),d.getMonth()+1,0).getDate();
+  d.setDate(Math.min(anchorDay,lastDay));
+  return d;
+}
+// next renewal/end date strictly from start+cycle, rolled forward to the upcoming one
+function computeRenewal(startStr,cyc){
+  if(!startStr) return null;
+  const s=new Date(startStr+'T00:00:00'); if(isNaN(s)) return null;
+  const anchor=s.getDate(); cyc=cyc||1;
+  const today=new Date(); today.setHours(0,0,0,0);
+  let d=addMonths(s,cyc,anchor), guard=0;
+  while(d<today && guard<2400){ d=addMonths(d,cyc,anchor); guard++; }
+  return d;
+}
+// the start Date object for a sub (full date if set, else derived from start month)
+function subStartObj(x){
+  const s=x.startDate || (x.startMonth ? x.startMonth+'-01' : null);
+  if(!s) return null;
+  const d=new Date(s+'T00:00:00'); return isNaN(d)?null:d;
+}
+// the end/renewal Date object: manual override if set, else auto-calculated
+function subEndObj(x){
+  if(x.endOverride){ const e=new Date(x.endOverride+'T00:00:00'); return isNaN(e)?null:e; }
+  return computeRenewal(x.startDate || (x.startMonth ? x.startMonth+'-01' : null), x.cycle||1);
+}
+// format a Date in Arabic, respecting the Hijri/Gregorian setting
+function fmtArDate(d){ if(!d) return ''; try{ return d.toLocaleDateString(calLoc(),{day:'numeric',month:'long',year:'numeric'}); }catch(e){ return isoDate(d); } }
+// the extra info line(s) shown under a subscription on its card (desc + dates)
+function subInfoBlock(x){
+  const parts=[];
+  if(x.desc && String(x.desc).trim()){
+    parts.push('<div style="font-size:12px;color:var(--text);line-height:1.55;text-align:right;white-space:normal;word-break:break-word">'+escHtml(x.desc.trim())+'</div>');
+  }
+  const dateBits=[];
+  const sd=subStartObj(x); if(sd) dateBits.push('بدأ في: '+fmtArDate(sd));
+  const ed=subEndObj(x);   if(ed) dateBits.push((x.endOverride?'ينتهي في: ':'يتجدد في: ')+fmtArDate(ed));
+  if(dateBits.length){
+    parts.push('<div style="font-size:11px;color:var(--sub);line-height:1.6;text-align:right;margin-top:3px">🗓 '+dateBits.join(' · ')+'</div>');
+  }
+  if(!parts.length) return '';
+  return '<div style="margin-top:8px;padding-top:8px;border-top:1px dashed color-mix(in srgb,var(--sub) 22%,transparent)">'+parts.join('')+'</div>';
+}
+// live preview text for the "end date" picker (auto vs manual)
+function updateEndPreview(startVal,cycleVal,endVal,el){
+  if(!el) return;
+  if(endVal){ const e=new Date(endVal+'T00:00:00'); el.textContent=isNaN(e)?'':('✓ تاريخ انتهاء محدد: '+fmtArDate(e)); el.style.color='var(--acc)'; return; }
+  if(!startVal){ el.textContent='اختر تاريخ البدء ليُحسب تاريخ التجديد تلقائياً'; el.style.color='var(--sub)'; return; }
+  const d=computeRenewal(startVal,parseInt(cycleVal,10)||1);
+  el.textContent=d?('يتجدد تلقائياً في: '+fmtArDate(d)):''; el.style.color='var(--teal)';
+}
 function renderSubs(){
   const mk=monthKey();                       // "YYYY-MM" — auto-resets each month
   const curIdx=monthIdx(mk);
@@ -2542,19 +2723,23 @@ function renderSubs(){
     const cyc=x.cycle||1;
     const row=document.createElement('div');
     const rowBg=pos%2===0?'color-mix(in srgb,var(--acc) 5%,transparent)':'transparent';
-    row.style.cssText='display:flex;align-items:center;gap:10px;padding:10px 8px;border-radius:10px;margin-bottom:4px;background:'+rowBg+';flex-direction:row-reverse;opacity:'+(paid?.5:1)+';transition:opacity .2s';
+    row.style.cssText='padding:10px 8px;border-radius:10px;margin-bottom:4px;background:'+rowBg+';opacity:'+(paid?.5:1)+';transition:opacity .2s';
     row.innerHTML=
-      '<input type="checkbox" class="ms-check sub-check" data-i="'+i+'" '+(paid?'checked':'')+' style="flex-shrink:0;accent-color:var(--acc)">'+
-      '<span style="flex:1;min-width:0;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;font-weight:600;text-decoration:'+(paid?'line-through':'none')+';color:'+(paid?'var(--sub)':'var(--text)')+'">'+x.name+'</span>'+
-      '<div style="display:flex;gap:6px;align-items:center;flex-direction:row-reverse;flex-shrink:0">'+
-        (histCount?'<span style="font-size:10px;color:var(--sub)">دفعتها '+histCount+'×</span>':'')+
-        (showPrice&&x.amount>0?'<span style="font-weight:700;color:'+(paid?'var(--sub)':'var(--acc)')+';direction:ltr;white-space:nowrap;font-size:13px;background:color-mix(in srgb,'+(paid?'var(--sub)':'var(--acc)')+' 12%,transparent);padding:3px 8px;border-radius:8px">'+fmt(x.amount)+' '+settings.currency+'</span>':'')+
-        (showDue?statusHtml:'')+
-        (cyc>1?'<span class="badge badge-sub">🔁 '+cycleLabel(cyc)+'</span>':'')+
-        '<span class="badge badge-sub">يوم '+x.day+'</span>'+
+      '<div style="display:flex;align-items:center;gap:10px;flex-direction:row-reverse">'+
+        '<input type="checkbox" class="ms-check sub-check" data-i="'+i+'" '+(paid?'checked':'')+' style="flex-shrink:0;accent-color:var(--acc)">'+
+        '<span style="flex:1;min-width:0;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;font-weight:600;text-decoration:'+(paid?'line-through':'none')+';color:'+(paid?'var(--sub)':'var(--text)')+'">'+x.name+'</span>'+
+        '<div style="display:flex;gap:6px;align-items:center;flex-direction:row-reverse;flex-shrink:0">'+
+          (histCount?'<span style="font-size:10px;color:var(--sub)">دفعتها '+histCount+'×</span>':'')+
+          (showPrice&&x.amount>0?'<span style="font-weight:700;color:'+(paid?'var(--sub)':'var(--acc)')+';direction:ltr;white-space:nowrap;font-size:13px;background:color-mix(in srgb,'+(paid?'var(--sub)':'var(--acc)')+' 12%,transparent);padding:3px 8px;border-radius:8px">'+fmt(x.amount)+' '+settings.currency+'</span>':'')+
+          (showDue?statusHtml:'')+
+          (cyc>1?'<span class="badge badge-sub">🔁 '+cycleLabel(cyc)+'</span>':'')+
+          '<span class="badge badge-sub">يوم '+x.day+'</span>'+
+        '</div>'+
+        '<button class="del-btn sub-edit" data-i="'+i+'" title="تعديل الاشتراك" style="color:color-mix(in srgb,var(--acc) 65%,var(--sub));flex-shrink:0">✎</button>'+
+        '<button class="del-btn sub-hist" data-i="'+i+'" title="سجّل دفعات أشهر سابقة" style="color:color-mix(in srgb,var(--teal) 75%,var(--sub));flex-shrink:0">📅</button>'+
+        '<button class="del-btn sub-del" data-i="'+i+'" style="color:color-mix(in srgb,var(--acc) 50%,var(--sub));flex-shrink:0">✕</button>'+
       '</div>'+
-      '<button class="del-btn sub-hist" data-i="'+i+'" title="سجّل دفعات أشهر سابقة" style="color:color-mix(in srgb,var(--teal) 75%,var(--sub));flex-shrink:0">📅</button>'+
-      '<button class="del-btn sub-del" data-i="'+i+'" style="color:color-mix(in srgb,var(--acc) 50%,var(--sub));flex-shrink:0">✕</button>';
+      subInfoBlock(x);
     list.appendChild(row);
   });
 
@@ -2569,17 +2754,21 @@ function renderSubs(){
       const info=subDue(x,curIdx);
       const histCount=(x.paidMonths||[]).length;
       const row=document.createElement('div');
-      row.style.cssText='display:flex;align-items:center;gap:10px;padding:10px 8px;border-radius:10px;margin-bottom:4px;flex-direction:row-reverse;opacity:.6';
+      row.style.cssText='padding:10px 8px;border-radius:10px;margin-bottom:4px;opacity:.6';
       row.innerHTML=
-        '<span style="flex:1;min-width:0;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;font-weight:600;color:var(--sub)">'+x.name+'</span>'+
-        '<div style="display:flex;gap:6px;align-items:center;flex-direction:row-reverse;flex-shrink:0">'+
-          (histCount?'<span style="font-size:10px;color:var(--sub)">دفعتها '+histCount+'×</span>':'')+
-          (showPrice&&x.amount>0?'<span style="font-weight:700;color:var(--sub);direction:ltr;white-space:nowrap;font-size:13px;background:color-mix(in srgb,var(--sub) 12%,transparent);padding:3px 8px;border-radius:8px">'+fmt(x.amount)+' '+settings.currency+'</span>':'')+
-          '<span class="badge badge-sub">🔁 '+cycleLabel(cyc)+'</span>'+
-          '<span class="badge">🗓 تستحق '+monthIdxLabel(info.nextIdx)+'</span>'+
+        '<div style="display:flex;align-items:center;gap:10px;flex-direction:row-reverse">'+
+          '<span style="flex:1;min-width:0;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;font-weight:600;color:var(--sub)">'+x.name+'</span>'+
+          '<div style="display:flex;gap:6px;align-items:center;flex-direction:row-reverse;flex-shrink:0">'+
+            (histCount?'<span style="font-size:10px;color:var(--sub)">دفعتها '+histCount+'×</span>':'')+
+            (showPrice&&x.amount>0?'<span style="font-weight:700;color:var(--sub);direction:ltr;white-space:nowrap;font-size:13px;background:color-mix(in srgb,var(--sub) 12%,transparent);padding:3px 8px;border-radius:8px">'+fmt(x.amount)+' '+settings.currency+'</span>':'')+
+            '<span class="badge badge-sub">🔁 '+cycleLabel(cyc)+'</span>'+
+            '<span class="badge">🗓 تستحق '+monthIdxLabel(info.nextIdx)+'</span>'+
+          '</div>'+
+          '<button class="del-btn sub-edit" data-i="'+i+'" title="تعديل الاشتراك" style="color:color-mix(in srgb,var(--acc) 65%,var(--sub));flex-shrink:0">✎</button>'+
+          '<button class="del-btn sub-hist" data-i="'+i+'" title="سجّل دفعات أشهر سابقة" style="color:color-mix(in srgb,var(--teal) 75%,var(--sub));flex-shrink:0">📅</button>'+
+          '<button class="del-btn sub-del" data-i="'+i+'" style="color:color-mix(in srgb,var(--acc) 50%,var(--sub));flex-shrink:0">✕</button>'+
         '</div>'+
-        '<button class="del-btn sub-hist" data-i="'+i+'" title="سجّل دفعات أشهر سابقة" style="color:color-mix(in srgb,var(--teal) 75%,var(--sub));flex-shrink:0">📅</button>'+
-        '<button class="del-btn sub-del" data-i="'+i+'" style="color:color-mix(in srgb,var(--acc) 50%,var(--sub));flex-shrink:0">✕</button>';
+        subInfoBlock(x);
       list.appendChild(row);
     });
   }
@@ -2591,6 +2780,7 @@ function renderSubs(){
     if(this.checked){ if(idx<0) pm.push(m); } else { if(idx>=0) pm.splice(idx,1); }
     save('pt_subs',subs); renderSubs();
   }));
+  list.querySelectorAll('.sub-edit').forEach(b=>b.addEventListener('click',()=>openSubEdit(+b.dataset.i)));
   list.querySelectorAll('.sub-hist').forEach(b=>b.addEventListener('click',()=>openSubHist(+b.dataset.i)));
   list.querySelectorAll('.sub-del').forEach(b=>b.addEventListener('click',()=>{
     const i=+b.dataset.i;
@@ -2616,6 +2806,51 @@ function openSubHist(i){
 function closeSubHist(){
   document.getElementById('sub-hist-modal').classList.remove('open');
   subHistIdx=null;
+}
+
+// ════ تعديل اشتراك — الاسم/المبلغ/الوصف/اليوم/الدورة/تاريخ البدء/تاريخ الانتهاء ════
+var subEditIdx=null;
+function _seEndPreview(){
+  updateEndPreview(
+    document.getElementById('se-start').value,
+    document.getElementById('se-cycle').value,
+    document.getElementById('se-end').value,
+    document.getElementById('se-end-preview')
+  );
+}
+function openSubEdit(i){
+  if(i==null||!subs[i]) return;
+  subEditIdx=i; var x=subs[i];
+  document.getElementById('se-name').value=x.name||'';
+  document.getElementById('se-amt').value=(x.amount>0)?String(x.amount):'';
+  document.getElementById('se-desc').value=x.desc||'';
+  document.getElementById('se-day').value=x.day||1;
+  document.getElementById('se-cycle').value=String(x.cycle||1);
+  document.getElementById('se-start').value=x.startDate || (x.startMonth?x.startMonth+'-01':'');
+  document.getElementById('se-end').value=x.endOverride||'';
+  _seEndPreview();
+  document.getElementById('sub-edit-modal').classList.add('open');
+}
+function closeSubEdit(){
+  document.getElementById('sub-edit-modal').classList.remove('open');
+  subEditIdx=null;
+}
+function saveSubEdit(){
+  var i=subEditIdx; if(i==null||!subs[i]) return;
+  var name=document.getElementById('se-name').value.trim();
+  if(!name){showToast('أدخل اسم الاشتراك','err');return;}
+  var amt=parseFloat(toW(document.getElementById('se-amt').value));
+  var amount=(!amt||isNaN(amt)||amt<0)?0:amt;
+  var desc=document.getElementById('se-desc').value.trim();
+  var day=parseInt(document.getElementById('se-day').value,10)||1; if(day<1)day=1; if(day>31)day=31;
+  var cycle=parseInt(document.getElementById('se-cycle').value,10)||1;
+  var startDate=document.getElementById('se-start').value||subs[i].startDate||today();
+  var endOverride=document.getElementById('se-end').value||'';
+  var o=subs[i];
+  o.name=name; o.amount=amount; o.desc=desc; o.day=day; o.cycle=cycle;
+  o.startDate=startDate; o.startMonth=startDate.slice(0,7); o.endOverride=endOverride;
+  save('pt_subs',subs);
+  closeSubEdit(); renderSubs(); showToast('تم تحديث الاشتراك ✓');
 }
 function renderSubHist(){
   var i=subHistIdx; if(i==null||!subs[i]) return;
@@ -2673,15 +2908,13 @@ function renderSalary(){
   const remBar=document.getElementById('salary-remaining-bar');
   const remVal=document.getElementById('salary-remain-val');
   const remLbl=document.getElementById('salary-remain-label');
-  // update extra cur label
-  const salCurLbl=document.getElementById('salary-cur-label');
-  if(salCurLbl) salCurLbl.textContent=settings.currency;
 
   // Compute extra income directly from entries (isIncome entries this month)
   const mr0=monthRange();
   const extraEntries=entries.filter(e=>e.isIncome&&isoDate(e.date)>=mr0.start&&isoDate(e.date)<=mr0.end);
   const extraTotal=extraEntries.reduce((s,e)=>s+e.amount,0);
-  const salaryBase=salary.month===cur?salary.amount:0;
+  const salRec=getSalary(cur);
+  const salaryBase=salRec.amount;
   // includeExtra setting: if false, only show salary; if true, add income entries
   const totalBalance=settings.includeExtra!==false?(salaryBase+extraTotal):salaryBase;
 
@@ -2710,8 +2943,76 @@ function renderSalary(){
     }
   }
 
+  // Per-month salary note + arrival date bar (under the card)
+  const noteBar=document.getElementById('salary-note-bar');
+  const noteTxt=document.getElementById('salary-note-text');
+  if(noteBar&&noteTxt){
+    const bits=[];
+    if(salaryBase>0&&salRec.date){
+      let dlabel='';
+      try{ dlabel=new Date(salRec.date+'T12:00').toLocaleDateString(calLoc(),{day:'numeric',month:'long'}); }catch(e){ dlabel=salRec.date; }
+      bits.push('💵 نزل '+dlabel);
+    }
+    if(salRec.note) bits.push(salRec.note);
+    if(bits.length){ noteTxt.textContent=bits.join('   ·   '); noteBar.style.display='flex'; }
+    else noteBar.style.display='none';
+  }
+
   // Extra income entries now shown in tracker list via isIncome flag
 }
+
+// ── Salary popup (menu → form), operates on the CURRENT month ──
+function salMonthLabel(){
+  try{ return new Date().toLocaleDateString(calLoc(),{month:'long',year:'numeric'}); }
+  catch(e){ return salMonthKey(); }
+}
+function salNorm(el){ var w=toW(el.value); if(w!==el.value){ var p=el.selectionStart; el.value=w; try{el.setSelectionRange(p,p);}catch(e){} } }
+function openSalaryMenu(){
+  var rec=getSalary(salMonthKey());
+  document.getElementById('sal-menu-sub').textContent='راتب شهر '+salMonthLabel();
+  // only offer "edit" when a salary already exists for this month
+  document.getElementById('sal-opt-edit').style.display=rec.amount>0?'block':'none';
+  document.getElementById('sal-step-menu').style.display='block';
+  document.getElementById('sal-step-form').style.display='none';
+  document.getElementById('salary-modal').classList.add('open');
+}
+function salaryShowForm(mode){
+  var rec=getSalary(salMonthKey());
+  document.getElementById('sal-form-cur').textContent=settings.currency;
+  document.getElementById('sal-form-month').textContent='شهر '+salMonthLabel();
+  if(mode==='edit'){
+    document.getElementById('sal-form-icon').textContent='✏️';
+    document.getElementById('sal-form-title').textContent='تعديل الراتب الحالي';
+  } else {
+    document.getElementById('sal-form-icon').textContent='💵';
+    document.getElementById('sal-form-title').textContent='نزّل الراتب الجديد';
+  }
+  document.getElementById('sal-form-amt').value=rec.amount>0?rec.amount:'';
+  document.getElementById('sal-form-date').value=rec.date||isoDate(new Date());
+  document.getElementById('sal-form-note').value=rec.note||'';
+  document.getElementById('sal-form-del').style.display=rec.amount>0?'block':'none';
+  document.getElementById('sal-step-menu').style.display='none';
+  document.getElementById('sal-step-form').style.display='block';
+  document.getElementById('salary-modal').classList.add('open');
+  setTimeout(function(){ try{document.getElementById('sal-form-amt').focus();}catch(e){} },60);
+}
+function salarySaveForm(){
+  var amt=parseFloat(toW(document.getElementById('sal-form-amt').value));
+  if(!amt||isNaN(amt)||amt<=0){ showToast('أدخل مبلغ الراتب','err'); return; }
+  var date=document.getElementById('sal-form-date').value||'';
+  var note=document.getElementById('sal-form-note').value||'';
+  setSalaryRec(salMonthKey(),amt,date,note);
+  closeSalaryModal();
+  renderSalary(); if(typeof renderDashboard==='function') renderDashboard();
+  showToast('تم حفظ راتب '+salMonthLabel()+' ✓');
+}
+function salaryClearCurrent(){
+  setSalaryRec(salMonthKey(),0,'','');
+  closeSalaryModal();
+  renderSalary(); if(typeof renderDashboard==='function') renderDashboard();
+  showToast('تم حذف راتب هذا الشهر');
+}
+function closeSalaryModal(){ document.getElementById('salary-modal').classList.remove('open'); }
 
 
 function applyAccent(v){document.documentElement.style.setProperty('--acc',v);}
@@ -2839,7 +3140,7 @@ function exportXLSX(){
     const mr=monthRange();
     const monthPurchases=purchases.filter(e=>isoDate(e.date)>=mr.start&&isoDate(e.date)<=mr.end);
     const monthIncome=incomeEntries.filter(e=>isoDate(e.date)>=mr.start&&isoDate(e.date)<=mr.end);
-    const salaryBase=salary.month===curMonth?salary.amount:0;
+    const salaryBase=getSalary(curMonth).amount;
     const extraTotal=monthIncome.reduce((s,e)=>s+e.amount,0);
     const totalBalance=(settings.includeExtra!==false)?(salaryBase+extraTotal):salaryBase;
     const monthSpent=monthPurchases.reduce((s,e)=>s+e.amount,0);
@@ -2966,7 +3267,7 @@ function exportXLSX(){
       ['متوسط الإنفاق اليومي',avgDay.toFixed(2)+' '+CUR],
       ['أكثر تصنيف إنفاقاً',topCat?topCat[0]+' ('+topCat[1]+' '+CUR+')':'—'],
       ['الفلوس الإضافية (وصلني)',incomeEntries.reduce((s,e)=>s+e.amount,0)+' '+CUR],
-      ['راتب الشهر الحالي',(salary.month===curMonth?salary.amount:0)+' '+CUR],
+      ['راتب الشهر الحالي',getSalary(curMonth).amount+' '+CUR],
       ['إجمالي الديون المسجّلة',debts.reduce((s,d)=>s+d.amount,0)+' '+CUR],
       ['الميزانية الشهرية الكلية',(settings.monthlyBudget>0?settings.monthlyBudget+' '+CUR:'غير مفعّلة')],
       ['المصروف هذا الشهر',monthSpent()+' '+CUR],
@@ -3009,7 +3310,7 @@ function exportXLSX(){
     const rows=[['الشهر','الراتب ('+CUR+')','وصلني ('+CUR+')','إجمالي الدخل ('+CUR+')','الإنفاق ('+CUR+')','الصافي / المدّخر ('+CUR+')','نسبة الادخار','عدد الدفعات']];
     Object.keys(months).sort().forEach(m=>{
       const b=months[m];
-      const sal=(salary.month===m?salary.amount:0);
+      const sal=getSalary(m).amount;
       const totalIncome=sal+b.income;
       const net=totalIncome-b.expense;
       const saveRate=totalIncome>0?((net/totalIncome)*100).toFixed(1)+'%':'—';
@@ -3438,6 +3739,26 @@ function init(){
     renderCatsPage(); showToast('تم حفظ الميزانية ✓');
   });
 
+  // edit category (name + description)
+  document.getElementById('ec-cancel').addEventListener('click',()=>{document.getElementById('edit-cat-modal').classList.remove('open');editCatIdx=null;});
+  document.getElementById('ec-save').addEventListener('click',()=>{
+    if(editCatIdx===null) return;
+    const nv=document.getElementById('ec-name').value.trim();
+    if(!nv){showToast('أدخل اسم التصنيف','err');return;}
+    const desc=document.getElementById('ec-desc').value.trim();
+    const oldName=cats[editCatIdx];
+    if(!catDescs) catDescs={};
+    // if renamed, carry the description and budget over to the new name
+    delete catDescs[oldName];
+    if(nv!==oldName && catBudgets[oldName]){catBudgets[nv]=catBudgets[oldName];delete catBudgets[oldName];save('pt_budgets',catBudgets);}
+    cats[editCatIdx]=nv;
+    if(desc) catDescs[nv]=desc;
+    save('pt_cats',cats); save('pt_catdescs',catDescs);
+    document.getElementById('edit-cat-modal').classList.remove('open');
+    editCatIdx=null;
+    renderCatsPage(); renderCatSelects(); renderPills(); renderEntries(); showToast('تم التعديل ✓');
+  });
+
   // toggles
   mkToggle('dark','darkMode',v=>{applyDark(v);});
   mkToggle('confirm','confirmDelete');
@@ -3490,6 +3811,15 @@ function init(){
 
   document.getElementById('sub-hist-close').addEventListener('click',closeSubHist);
   document.getElementById('sub-hist-modal').addEventListener('click',(e)=>{if(e.target.id==='sub-hist-modal')closeSubHist();});
+
+  // edit-subscription modal
+  document.getElementById('se-save').addEventListener('click',saveSubEdit);
+  document.getElementById('se-cancel').addEventListener('click',closeSubEdit);
+  document.getElementById('sub-edit-modal').addEventListener('click',(e)=>{if(e.target.id==='sub-edit-modal')closeSubEdit();});
+  document.getElementById('se-amt').addEventListener('input',function(){var w=toW(this.value);if(w!==this.value){var p=this.selectionStart;this.value=w;try{this.setSelectionRange(p,p);}catch(e){}}});
+  document.getElementById('se-start').addEventListener('change',_seEndPreview);
+  document.getElementById('se-cycle').addEventListener('change',_seEndPreview);
+  document.getElementById('se-end').addEventListener('change',_seEndPreview);
 
   document.getElementById('edit-cancel').addEventListener('click',()=>{document.getElementById('edit-modal').classList.remove('open');editEntryId=null;});
   document.getElementById('edit-save').addEventListener('click',()=>{
@@ -3587,8 +3917,8 @@ function init(){
           if(ok){
             entries=load('pt_entries',[]); cats=load('pt_cats',[...DEFAULT_CATS]);
             catBudgets=load('pt_budgets',{}); settings=load('pt_settings',settings);
-            debts=load('pt_debts',[]); salary=load('pt_salary',{amount:0,month:''});
-            templates=load('pt_templates',{}); catDescs=load('pt_catdescs',{});
+            debts=load('pt_debts',[]); salary=migrateSalary(load('pt_salary',{}));
+            templates=load('pt_templates',{}); catDescs=load('pt_catdescs',{...DEFAULT_CATDESCS});
             applySettings(); renderCatSelects(); renderPills(); renderEntries(); renderDebts(); renderSalary();
             showToast('تم الدخول — بياناتك رجعت ✓');
           } else {
@@ -3614,8 +3944,8 @@ function init(){
         if(ok){
           entries=load('pt_entries',[]); cats=load('pt_cats',[...DEFAULT_CATS]);
           catBudgets=load('pt_budgets',{}); settings=load('pt_settings',settings);
-          debts=load('pt_debts',[]); salary=load('pt_salary',{amount:0,month:''});
-          templates=load('pt_templates',{}); catDescs=load('pt_catdescs',{});
+          debts=load('pt_debts',[]); salary=migrateSalary(load('pt_salary',{}));
+          templates=load('pt_templates',{}); catDescs=load('pt_catdescs',{...DEFAULT_CATDESCS});
           applySettings(); renderCatSelects(); renderPills(); renderEntries(); renderDebts(); renderSalary();
           stEl.textContent='✓ تم الجلب'; stEl.style.color='#22c55e';
           showToast('تمت المزامنة ✓');
@@ -3630,7 +3960,7 @@ function init(){
   // ── مسح الدفعات فقط
   document.getElementById('btn-clear-entries').addEventListener('click',()=>{
     openConfirm({icon:'🗑',title:'مسح الدفعات فقط؟',warn:'⚠️ ستُحذف جميع الدفعات المسجّلة والفلوس الإضافية. التصنيفات تبقى.',body:'تأكد من التصدير أولاً.',confirmLabel:'امسح الدفعات',confirmClass:'btn btn-err',fn:()=>{
-      entries=[];salary={amount:0,month:''};
+      entries=[];salary={};
       save('pt_entries',entries);save('pt_salary',salary);
       renderEntries();renderSalary();showToast('تم المسح','err');
     }});
@@ -3639,7 +3969,7 @@ function init(){
   // ── مسح كل البيانات
   document.getElementById('btn-clear-all').addEventListener('click',()=>{
     openConfirm({icon:'🗑',title:'مسح كل البيانات؟',warn:'⚠️ يحذف الدفعات + الديون + الراتب + الفلوس الإضافية + الميزانيات. التصنيفات تبقى.',body:'تأكد من تصدير Excel أولاً.',confirmLabel:'امسح كل البيانات',confirmClass:'btn btn-err',fn:()=>{
-      entries=[];debts=[];catBudgets={};salary={amount:0,month:''};
+      entries=[];debts=[];catBudgets={};salary={};
     // REMOVED(extraIncome): save('pt_entries',entries);save('pt_debts',debts);save('pt_budgets',catBudgets);save('pt_salary',salary);save('pt_extra',extraIncome);
       renderEntries();renderDebts();renderSalary();
       showToast('تم مسح البيانات','err');
@@ -3678,6 +4008,7 @@ function init(){
     const tplKeys=Object.keys(templates);
     openConfirm({icon:'🏷',title:'إعادة تعيين التصنيفات؟',warn:'⚠️ ستُستبدل تصنيفاتك الحالية. الدفعات لن تتأثر.',body:tplKeys.length?`لديك ${tplKeys.length} template محفوظ. استخدم زر التحميل في الإعدادات لاختيار أحدها.`:'سيتم تحميل التصنيفات الافتراضية.',confirmLabel:'إعادة تعيين',fn:()=>{
       cats=[...DEFAULT_CATS]; save('pt_cats',cats);
+      catDescs={...DEFAULT_CATDESCS}; save('pt_catdescs',catDescs);
       renderCatsPage();renderCatSelects();renderPills();
       showToast('تمت إعادة التعيين');
     }});
@@ -3744,16 +4075,36 @@ function init(){
     const amtEl=document.getElementById('sub-amt');
     const dayEl=document.getElementById('sub-day');
     const cycleEl=document.getElementById('sub-cycle');
+    const descEl=document.getElementById('sub-desc');
+    const startEl=document.getElementById('sub-start');
+    const endEl=document.getElementById('sub-end');
     const amt=parseFloat(toW(amtEl.value));
     const name=nameEl.value.trim();
     const day=parseInt(dayEl.value,10)||1;
     const cycle=parseInt(cycleEl&&cycleEl.value,10)||1;
     if(!name){showToast('أدخل اسم الاشتراك','err');return;}
     const amount=(!amt||isNaN(amt)||amt<0)?0:amt;
-    subs.unshift({id:Date.now(),name,amount,day,cycle,startMonth:monthKey(),paidMonths:[]});
-    save('pt_subs',subs); amtEl.value=''; nameEl.value=''; if(cycleEl) cycleEl.value='1';
+    const desc=(descEl&&descEl.value||'').trim();
+    const startDate=(startEl&&startEl.value)||today();       // default to today if left empty
+    const endOverride=(endEl&&endEl.value)||'';
+    const startMonth=startDate.slice(0,7);                    // keep month-anchor in sync for due/history logic
+    subs.unshift({id:Date.now(),name,amount,day,cycle,desc,startDate,endOverride,startMonth,paidMonths:[]});
+    save('pt_subs',subs);
+    amtEl.value=''; nameEl.value=''; if(cycleEl) cycleEl.value='1';
+    if(descEl) descEl.value=''; if(startEl) startEl.value=''; if(endEl) endEl.value='';
+    updateEndPreview('','1','',document.getElementById('sub-end-preview'));
     renderSubs(); showToast(cycle>1?'تم إضافة الاشتراك ('+cycleLabel(cycle)+')':'تم إضافة الاشتراك');
   });
+  // live end-date preview in the add form
+  (function(){
+    var sEl=document.getElementById('sub-start'), cEl=document.getElementById('sub-cycle'),
+        eEl=document.getElementById('sub-end'), pEl=document.getElementById('sub-end-preview');
+    function upd(){ updateEndPreview(sEl?sEl.value:'', cEl?cEl.value:'1', eEl?eEl.value:'', pEl); }
+    if(sEl) sEl.addEventListener('change',upd);
+    if(cEl) cEl.addEventListener('change',upd);
+    if(eEl) eEl.addEventListener('change',upd);
+    upd();
+  })();
   document.getElementById('sub-amt').addEventListener('input',function(){var w=toW(this.value);if(w!==this.value){var p=this.selectionStart;this.value=w;try{this.setSelectionRange(p,p);}catch(e){}}});
   document.getElementById('sub-name').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('btn-add-sub').click();});
   document.getElementById('sub-add-toggle').addEventListener('click',function(){
@@ -3768,22 +4119,7 @@ function init(){
     this.style.borderColor=open?'color-mix(in srgb,var(--acc) 40%,transparent)':'var(--border)';
   });
 
-  // ── SALARY ──
-  document.getElementById('salary-inp').addEventListener('input',function(){var w=toW(this.value);if(w!==this.value){var p=this.selectionStart;this.value=w;try{this.setSelectionRange(p,p);}catch(e){}}});
-  document.getElementById('btn-save-salary').addEventListener('click',()=>{
-    const amt=parseFloat(toW(document.getElementById('salary-inp').value));
-    if(!amt||isNaN(amt)||amt<=0){showToast('أدخل مبلغ الراتب','err');return;}
-    salary={amount:amt,month:isoDate(new Date()).slice(0,7)};
-    save('pt_salary',salary);
-    document.getElementById('salary-edit-form').style.display='none';
-    document.getElementById('salary-inp').value='';
-    renderSalary(); showToast('تم حفظ الراتب ✓');
-  });
-  document.getElementById('btn-clear-salary').addEventListener('click',()=>{
-    salary={amount:0,month:''};save('pt_salary',salary);
-    document.getElementById('salary-edit-form').style.display='none';
-    renderSalary(); showToast('تم مسح الراتب');
-  });
+  // ── SALARY ── (handled by the per-month popup: openSalaryMenu / salaryShowForm / salarySaveForm)
 
   // extra income now handled by addEntry(true) via 'وصلني' button
 
@@ -3805,9 +4141,9 @@ function _reloadVars(){
   settings=load('pt_settings',settings);
   debts=load('pt_debts',[]);
   subs=load('pt_subs',[]);
-  salary=load('pt_salary',{amount:0,month:''});
+  salary=migrateSalary(load('pt_salary',{}));
   templates=load('pt_templates',{});
-  catDescs=load('pt_catdescs',{});
+  catDescs=load('pt_catdescs',{...DEFAULT_CATDESCS});
 }
 _reloadVars();
 // If Supabase is configured + user has session, pull cloud data then init
