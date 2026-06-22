@@ -1,0 +1,558 @@
+{
+  "_comment": "Auto-generated from SUB_LOGOS in index.html. 'domain' drives the auto-downloader (Clearbit -> Google favicon fallback). 'brandfetch' is the manual high-res/SVG source. Files are saved as logos/<slug>.png",
+  "downloadOrder": [
+    "clearbit",
+    "favicon"
+  ],
+  "count": 77,
+  "logos": [
+    {
+      "name": "ChatGPT",
+      "slug": "chatgpt",
+      "category": "🤖 ذكاء اصطناعي",
+      "domain": "openai.com",
+      "brandfetch": "https://brandfetch.com/openai.com"
+    },
+    {
+      "name": "Claude",
+      "slug": "claude",
+      "category": "🤖 ذكاء اصطناعي",
+      "domain": "anthropic.com",
+      "brandfetch": "https://brandfetch.com/anthropic.com"
+    },
+    {
+      "name": "Gemini",
+      "slug": "gemini",
+      "category": "🤖 ذكاء اصطناعي",
+      "domain": "google.com",
+      "favicon": "gemini.google.com",
+      "brandfetch": "https://brandfetch.com/google.com"
+    },
+    {
+      "name": "Perplexity",
+      "slug": "perplexity",
+      "category": "🤖 ذكاء اصطناعي",
+      "domain": "perplexity.ai",
+      "brandfetch": "https://brandfetch.com/perplexity.ai"
+    },
+    {
+      "name": "Grok",
+      "slug": "grok",
+      "category": "🤖 ذكاء اصطناعي",
+      "domain": "x.ai",
+      "brandfetch": "https://brandfetch.com/x.ai"
+    },
+    {
+      "name": "Midjourney",
+      "slug": "midjourney",
+      "category": "🤖 ذكاء اصطناعي",
+      "domain": "midjourney.com",
+      "brandfetch": "https://brandfetch.com/midjourney.com"
+    },
+    {
+      "name": "GitHub Copilot",
+      "slug": "github-copilot",
+      "category": "🤖 ذكاء اصطناعي",
+      "domain": "github.com",
+      "brandfetch": "https://brandfetch.com/github.com"
+    },
+    {
+      "name": "Cursor",
+      "slug": "cursor",
+      "category": "🤖 ذكاء اصطناعي",
+      "domain": "cursor.com",
+      "brandfetch": "https://brandfetch.com/cursor.com"
+    },
+    {
+      "name": "Netflix",
+      "slug": "netflix",
+      "category": "🎬 بث وترفيه",
+      "domain": "netflix.com",
+      "brandfetch": "https://brandfetch.com/netflix.com"
+    },
+    {
+      "name": "شاهد VIP",
+      "slug": "shahid",
+      "category": "🎬 بث وترفيه",
+      "domain": "shahid.net",
+      "brandfetch": "https://brandfetch.com/shahid.net"
+    },
+    {
+      "name": "OSN+",
+      "slug": "osn",
+      "category": "🎬 بث وترفيه",
+      "domain": "osn.com",
+      "brandfetch": "https://brandfetch.com/osn.com"
+    },
+    {
+      "name": "Prime Video",
+      "slug": "prime-video",
+      "category": "🎬 بث وترفيه",
+      "domain": "primevideo.com",
+      "brandfetch": "https://brandfetch.com/primevideo.com"
+    },
+    {
+      "name": "Disney+",
+      "slug": "disney-plus",
+      "category": "🎬 بث وترفيه",
+      "domain": "disneyplus.com",
+      "brandfetch": "https://brandfetch.com/disneyplus.com"
+    },
+    {
+      "name": "STARZPLAY",
+      "slug": "starzplay",
+      "category": "🎬 بث وترفيه",
+      "domain": "starzplay.com",
+      "brandfetch": "https://brandfetch.com/starzplay.com"
+    },
+    {
+      "name": "YouTube Premium",
+      "slug": "youtube-premium",
+      "category": "🎬 بث وترفيه",
+      "domain": "youtube.com",
+      "brandfetch": "https://brandfetch.com/youtube.com"
+    },
+    {
+      "name": "Apple TV+",
+      "slug": "apple-tv",
+      "category": "🎬 بث وترفيه",
+      "domain": "apple.com",
+      "favicon": "tv.apple.com",
+      "brandfetch": "https://brandfetch.com/apple.com"
+    },
+    {
+      "name": "Spotify",
+      "slug": "spotify",
+      "category": "🎵 موسيقى",
+      "domain": "spotify.com",
+      "brandfetch": "https://brandfetch.com/spotify.com"
+    },
+    {
+      "name": "Apple Music",
+      "slug": "apple-music",
+      "category": "🎵 موسيقى",
+      "domain": "apple.com",
+      "favicon": "music.apple.com",
+      "brandfetch": "https://brandfetch.com/apple.com"
+    },
+    {
+      "name": "أنغامي",
+      "slug": "anghami",
+      "category": "🎵 موسيقى",
+      "domain": "anghami.com",
+      "brandfetch": "https://brandfetch.com/anghami.com"
+    },
+    {
+      "name": "YouTube Music",
+      "slug": "youtube-music",
+      "category": "🎵 موسيقى",
+      "domain": "youtube.com",
+      "favicon": "music.youtube.com",
+      "brandfetch": "https://brandfetch.com/youtube.com"
+    },
+    {
+      "name": "PlayStation Plus",
+      "slug": "playstation-plus",
+      "category": "🎮 ألعاب",
+      "domain": "playstation.com",
+      "brandfetch": "https://brandfetch.com/playstation.com"
+    },
+    {
+      "name": "Xbox Game Pass",
+      "slug": "xbox-game-pass",
+      "category": "🎮 ألعاب",
+      "domain": "xbox.com",
+      "brandfetch": "https://brandfetch.com/xbox.com"
+    },
+    {
+      "name": "Nintendo Online",
+      "slug": "nintendo",
+      "category": "🎮 ألعاب",
+      "domain": "nintendo.com",
+      "brandfetch": "https://brandfetch.com/nintendo.com"
+    },
+    {
+      "name": "EA Play",
+      "slug": "ea-play",
+      "category": "🎮 ألعاب",
+      "domain": "ea.com",
+      "brandfetch": "https://brandfetch.com/ea.com"
+    },
+    {
+      "name": "iCloud+",
+      "slug": "icloud",
+      "category": "☁️ تخزين سحابي",
+      "domain": "icloud.com",
+      "brandfetch": "https://brandfetch.com/icloud.com"
+    },
+    {
+      "name": "Google One",
+      "slug": "google-one",
+      "category": "☁️ تخزين سحابي",
+      "domain": "google.com",
+      "favicon": "one.google.com",
+      "brandfetch": "https://brandfetch.com/google.com"
+    },
+    {
+      "name": "Dropbox",
+      "slug": "dropbox",
+      "category": "☁️ تخزين سحابي",
+      "domain": "dropbox.com",
+      "brandfetch": "https://brandfetch.com/dropbox.com"
+    },
+    {
+      "name": "OneDrive",
+      "slug": "onedrive",
+      "category": "☁️ تخزين سحابي",
+      "domain": "onedrive.com",
+      "favicon": "onedrive.live.com",
+      "brandfetch": "https://brandfetch.com/onedrive.com"
+    },
+    {
+      "name": "Microsoft 365",
+      "slug": "microsoft-365",
+      "category": "💼 إنتاجية وعمل",
+      "domain": "microsoft.com",
+      "favicon": "office.com",
+      "brandfetch": "https://brandfetch.com/microsoft.com"
+    },
+    {
+      "name": "Adobe Creative Cloud",
+      "slug": "adobe-cc",
+      "category": "💼 إنتاجية وعمل",
+      "domain": "adobe.com",
+      "brandfetch": "https://brandfetch.com/adobe.com"
+    },
+    {
+      "name": "Canva Pro",
+      "slug": "canva",
+      "category": "💼 إنتاجية وعمل",
+      "domain": "canva.com",
+      "brandfetch": "https://brandfetch.com/canva.com"
+    },
+    {
+      "name": "Notion",
+      "slug": "notion",
+      "category": "💼 إنتاجية وعمل",
+      "domain": "notion.so",
+      "brandfetch": "https://brandfetch.com/notion.so"
+    },
+    {
+      "name": "LinkedIn Premium",
+      "slug": "linkedin",
+      "category": "💼 إنتاجية وعمل",
+      "domain": "linkedin.com",
+      "brandfetch": "https://brandfetch.com/linkedin.com"
+    },
+    {
+      "name": "Figma",
+      "slug": "figma",
+      "category": "💼 إنتاجية وعمل",
+      "domain": "figma.com",
+      "brandfetch": "https://brandfetch.com/figma.com"
+    },
+    {
+      "name": "TradingView",
+      "slug": "tradingview",
+      "category": "📈 مالية واستثمار",
+      "domain": "tradingview.com",
+      "brandfetch": "https://brandfetch.com/tradingview.com"
+    },
+    {
+      "name": "eToro",
+      "slug": "etoro",
+      "category": "📈 مالية واستثمار",
+      "domain": "etoro.com",
+      "brandfetch": "https://brandfetch.com/etoro.com"
+    },
+    {
+      "name": "Investing.com",
+      "slug": "investing",
+      "category": "📈 مالية واستثمار",
+      "domain": "investing.com",
+      "brandfetch": "https://brandfetch.com/investing.com"
+    },
+    {
+      "name": "باقة STC",
+      "slug": "stc",
+      "category": "📱 اتصالات",
+      "domain": "stc.com.sa",
+      "brandfetch": "https://brandfetch.com/stc.com.sa"
+    },
+    {
+      "name": "باقة Mobily",
+      "slug": "mobily",
+      "category": "📱 اتصالات",
+      "domain": "mobily.com.sa",
+      "brandfetch": "https://brandfetch.com/mobily.com.sa"
+    },
+    {
+      "name": "باقة Zain",
+      "slug": "zain",
+      "category": "📱 اتصالات",
+      "domain": "zain.com",
+      "favicon": "sa.zain.com",
+      "brandfetch": "https://brandfetch.com/zain.com"
+    },
+    {
+      "name": "Apple Fitness+",
+      "slug": "apple-fitness",
+      "category": "🏋️ صحة ولياقة",
+      "domain": "apple.com",
+      "favicon": "fitness.apple.com",
+      "brandfetch": "https://brandfetch.com/apple.com"
+    },
+    {
+      "name": "Calm",
+      "slug": "calm",
+      "category": "🏋️ صحة ولياقة",
+      "domain": "calm.com",
+      "brandfetch": "https://brandfetch.com/calm.com"
+    },
+    {
+      "name": "DeepSeek",
+      "slug": "deepseek",
+      "category": "🤖 ذكاء اصطناعي",
+      "domain": "deepseek.com",
+      "brandfetch": "https://brandfetch.com/deepseek.com"
+    },
+    {
+      "name": "ElevenLabs",
+      "slug": "elevenlabs",
+      "category": "🤖 ذكاء اصطناعي",
+      "domain": "elevenlabs.io",
+      "brandfetch": "https://brandfetch.com/elevenlabs.io"
+    },
+    {
+      "name": "TOD",
+      "slug": "tod",
+      "category": "🎬 بث وترفيه",
+      "domain": "tod.tv",
+      "brandfetch": "https://brandfetch.com/tod.tv"
+    },
+    {
+      "name": "beIN SPORTS",
+      "slug": "bein-sports",
+      "category": "🎬 بث وترفيه",
+      "domain": "beinsports.com",
+      "brandfetch": "https://brandfetch.com/beinsports.com"
+    },
+    {
+      "name": "Rotana",
+      "slug": "rotana",
+      "category": "🎬 بث وترفيه",
+      "domain": "rotana.net",
+      "brandfetch": "https://brandfetch.com/rotana.net"
+    },
+    {
+      "name": "Jawwy TV",
+      "slug": "jawwy-tv",
+      "category": "🎬 بث وترفيه",
+      "domain": "jawwy.sa",
+      "brandfetch": "https://brandfetch.com/jawwy.sa"
+    },
+    {
+      "name": "Weyyak",
+      "slug": "weyyak",
+      "category": "🎬 بث وترفيه",
+      "domain": "weyyak.com",
+      "brandfetch": "https://brandfetch.com/weyyak.com"
+    },
+    {
+      "name": "Deezer",
+      "slug": "deezer",
+      "category": "🎵 موسيقى",
+      "domain": "deezer.com",
+      "brandfetch": "https://brandfetch.com/deezer.com"
+    },
+    {
+      "name": "SoundCloud",
+      "slug": "soundcloud",
+      "category": "🎵 موسيقى",
+      "domain": "soundcloud.com",
+      "brandfetch": "https://brandfetch.com/soundcloud.com"
+    },
+    {
+      "name": "Discord Nitro",
+      "slug": "discord",
+      "category": "🎮 ألعاب",
+      "domain": "discord.com",
+      "brandfetch": "https://brandfetch.com/discord.com"
+    },
+    {
+      "name": "Roblox",
+      "slug": "roblox",
+      "category": "🎮 ألعاب",
+      "domain": "roblox.com",
+      "brandfetch": "https://brandfetch.com/roblox.com"
+    },
+    {
+      "name": "Twitch",
+      "slug": "twitch",
+      "category": "🎮 ألعاب",
+      "domain": "twitch.tv",
+      "brandfetch": "https://brandfetch.com/twitch.tv"
+    },
+    {
+      "name": "هنقرستيشن",
+      "slug": "hungerstation",
+      "category": "🍔 توصيل وتسوق",
+      "domain": "hungerstation.com",
+      "brandfetch": "https://brandfetch.com/hungerstation.com"
+    },
+    {
+      "name": "جاهز",
+      "slug": "jahez",
+      "category": "🍔 توصيل وتسوق",
+      "domain": "jahez.net",
+      "brandfetch": "https://brandfetch.com/jahez.net"
+    },
+    {
+      "name": "مرسول",
+      "slug": "mrsool",
+      "category": "🍔 توصيل وتسوق",
+      "domain": "mrsool.co",
+      "brandfetch": "https://brandfetch.com/mrsool.co"
+    },
+    {
+      "name": "ToYou",
+      "slug": "toyou",
+      "category": "🍔 توصيل وتسوق",
+      "domain": "toyou.io",
+      "brandfetch": "https://brandfetch.com/toyou.io"
+    },
+    {
+      "name": "ذا شفز",
+      "slug": "thechefz",
+      "category": "🍔 توصيل وتسوق",
+      "domain": "thechefz.co",
+      "brandfetch": "https://brandfetch.com/thechefz.co"
+    },
+    {
+      "name": "نون",
+      "slug": "noon",
+      "category": "🍔 توصيل وتسوق",
+      "domain": "noon.com",
+      "brandfetch": "https://brandfetch.com/noon.com"
+    },
+    {
+      "name": "Amazon Prime",
+      "slug": "amazon",
+      "category": "🍔 توصيل وتسوق",
+      "domain": "amazon.sa",
+      "brandfetch": "https://brandfetch.com/amazon.sa"
+    },
+    {
+      "name": "كريم Plus",
+      "slug": "careem",
+      "category": "🍔 توصيل وتسوق",
+      "domain": "careem.com",
+      "brandfetch": "https://brandfetch.com/careem.com"
+    },
+    {
+      "name": "Uber One",
+      "slug": "uber",
+      "category": "🍔 توصيل وتسوق",
+      "domain": "uber.com",
+      "brandfetch": "https://brandfetch.com/uber.com"
+    },
+    {
+      "name": "Zoom",
+      "slug": "zoom",
+      "category": "💼 إنتاجية وعمل",
+      "domain": "zoom.us",
+      "brandfetch": "https://brandfetch.com/zoom.us"
+    },
+    {
+      "name": "Grammarly",
+      "slug": "grammarly",
+      "category": "💼 إنتاجية وعمل",
+      "domain": "grammarly.com",
+      "brandfetch": "https://brandfetch.com/grammarly.com"
+    },
+    {
+      "name": "Slack",
+      "slug": "slack",
+      "category": "💼 إنتاجية وعمل",
+      "domain": "slack.com",
+      "brandfetch": "https://brandfetch.com/slack.com"
+    },
+    {
+      "name": "Trello",
+      "slug": "trello",
+      "category": "💼 إنتاجية وعمل",
+      "domain": "trello.com",
+      "brandfetch": "https://brandfetch.com/trello.com"
+    },
+    {
+      "name": "Duolingo",
+      "slug": "duolingo",
+      "category": "📚 تعليم وقراءة",
+      "domain": "duolingo.com",
+      "brandfetch": "https://brandfetch.com/duolingo.com"
+    },
+    {
+      "name": "Coursera",
+      "slug": "coursera",
+      "category": "📚 تعليم وقراءة",
+      "domain": "coursera.org",
+      "brandfetch": "https://brandfetch.com/coursera.org"
+    },
+    {
+      "name": "Udemy",
+      "slug": "udemy",
+      "category": "📚 تعليم وقراءة",
+      "domain": "udemy.com",
+      "brandfetch": "https://brandfetch.com/udemy.com"
+    },
+    {
+      "name": "Storytel",
+      "slug": "storytel",
+      "category": "📚 تعليم وقراءة",
+      "domain": "storytel.com",
+      "brandfetch": "https://brandfetch.com/storytel.com"
+    },
+    {
+      "name": "Binance",
+      "slug": "binance",
+      "category": "📈 مالية واستثمار",
+      "domain": "binance.com",
+      "brandfetch": "https://brandfetch.com/binance.com"
+    },
+    {
+      "name": "باقة Salam",
+      "slug": "salam",
+      "category": "📱 اتصالات",
+      "domain": "salam.sa",
+      "brandfetch": "https://brandfetch.com/salam.sa"
+    },
+    {
+      "name": "باقة Lebara",
+      "slug": "lebara",
+      "category": "📱 اتصالات",
+      "domain": "lebara.sa",
+      "brandfetch": "https://brandfetch.com/lebara.sa"
+    },
+    {
+      "name": "باقة Virgin",
+      "slug": "virgin-mobile",
+      "category": "📱 اتصالات",
+      "domain": "virginmobile.sa",
+      "brandfetch": "https://brandfetch.com/virginmobile.sa"
+    },
+    {
+      "name": "وقت اللياقة",
+      "slug": "fitness-time",
+      "category": "🏋️ صحة ولياقة",
+      "domain": "fitnesstime.com.sa",
+      "brandfetch": "https://brandfetch.com/fitnesstime.com.sa"
+    },
+    {
+      "name": "Headspace",
+      "slug": "headspace",
+      "category": "🏋️ صحة ولياقة",
+      "domain": "headspace.com",
+      "brandfetch": "https://brandfetch.com/headspace.com"
+    }
+  ]
+}

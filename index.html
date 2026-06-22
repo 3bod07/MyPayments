@@ -180,6 +180,8 @@ select{cursor:pointer;direction:rtl}
 .pills::-webkit-scrollbar{height:0}
 .pill{border:1.5px solid var(--sub);background:transparent;color:var(--sub);border-radius:20px;padding:5px 12px;font-size:12px;white-space:nowrap;cursor:pointer;font-family:var(--ff);flex-shrink:0}
 .pill.active{border-color:var(--acc);color:var(--acc);background:color-mix(in srgb,var(--acc) 15%,transparent)}
+.sub-logo{width:18px;height:18px;border-radius:5px;object-fit:contain;background:#fff;padding:1px;flex-shrink:0;vertical-align:middle;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.sub-preset{display:inline-flex;align-items:center;gap:6px;flex-direction:row-reverse}
 
 /* BARS */
 .bar-bg{background:var(--border);border-radius:4px;height:7px;margin-top:5px;overflow:hidden}
@@ -197,6 +199,12 @@ select{cursor:pointer;direction:rtl}
 .toggle.on{background:var(--acc);box-shadow:0 0 16px var(--glow),0 1px 0 var(--glass-hi) inset}
 .toggle::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:left .28s cubic-bezier(.2,.9,.3,1);box-shadow:0 1px 4px #0006}
 .toggle.on::after{left:22px}
+
+/* SEGMENTED VIEW SWITCHER (Details / Tiles) */
+.seg{display:inline-flex;gap:2px;padding:2px;border-radius:11px;background:color-mix(in srgb,var(--sub) 16%,transparent);border:1px solid var(--border);flex-shrink:0}
+.seg-btn{display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border:none;background:transparent;color:var(--sub);font-size:11px;font-weight:600;font-family:inherit;border-radius:9px;cursor:pointer;transition:background .2s,color .2s,box-shadow .2s}
+.seg-btn svg{width:14px;height:14px;flex-shrink:0}
+.seg-btn.on{background:var(--acc);color:#fff;box-shadow:0 0 12px var(--glow),0 1px 0 var(--glass-hi) inset}
 
 /* TOAST */
 #toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#22c55e;color:#fff;border-radius:12px;padding:10px 22px;font-weight:700;font-size:13px;z-index:9999;white-space:pre-line;text-align:center;box-shadow:0 4px 24px #0007;display:none;font-family:var(--ff);direction:rtl;max-width:90vw;line-height:1.4}
@@ -362,7 +370,7 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 10px var(--glow),0 1px 3p
 
 <!-- NAV -->
 <div id="nav">
-  <div id="logo">وين فلوسي تروح</div>
+  <div id="logo">وين فلوسي</div>
   <div class="nav-tabs">
     <button class="nav-tab active" data-page="tracker"><span class="nav-ic"><svg viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span><span class="lbl">تتبع</span></button>
     <button class="nav-tab" data-page="dashboard"><span class="nav-ic"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg></span><span class="lbl">إحصائيات</span></button>
@@ -680,12 +688,25 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 10px var(--glow),0 1px 3p
     <div id="sub-disp-body" style="display:none;margin-top:6px">
       <div class="sett-row"><div class="sett-top"><div class="sett-label">ملخص الشهر</div><button class="toggle on" id="tog-sub-summary"></button></div><div class="sett-desc">بطاقات: إجمالي شهري · مدفوع · المتبقي</div></div>
       <div class="sett-row"><div class="sett-top"><div class="sett-label">السعر</div><button class="toggle on" id="tog-sub-price"></button></div><div class="sett-desc">يعرض مبلغ كل اشتراك في القائمة</div></div>
-      <div class="sett-row" style="border-bottom:none"><div class="sett-top"><div class="sett-label">موعد الاستحقاق</div><button class="toggle on" id="tog-sub-due"></button></div><div class="sett-desc">يعرض كم باقي على الخصم أو مقدار التأخير</div></div>
+      <div class="sett-row"><div class="sett-top"><div class="sett-label">موعد الاستحقاق</div><button class="toggle on" id="tog-sub-due"></button></div><div class="sett-desc">يعرض كم باقي على الخصم أو مقدار التأخير</div></div>
+      <div class="sett-row"><div class="sett-top"><div class="sett-label">عرض الاشتراكات</div><div class="seg" id="seg-sub-view"><button type="button" class="seg-btn" data-view="tiles"><svg viewBox="0 0 16 16" fill="currentColor"><rect x="2" y="2" width="5" height="5" rx="1"/><rect x="9" y="2" width="5" height="5" rx="1"/><rect x="2" y="9" width="5" height="5" rx="1"/><rect x="9" y="9" width="5" height="5" rx="1"/></svg>مربعات</button><button type="button" class="seg-btn" data-view="details"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="2" y1="4" x2="14" y2="4"/><line x1="2" y1="8" x2="14" y2="8"/><line x1="2" y1="12" x2="14" y2="12"/></svg>تفاصيل</button></div></div><div class="sett-desc">شكل العرض: مربعات بعمودين أو قائمة تفصيلية</div></div>
+      <div class="sett-row"><div class="sett-top"><div class="sett-label">الوصف</div><button class="toggle" id="tog-sub-info"></button></div><div class="sett-desc">عرض الوصف وتواريخ البدء والتجديد على البطاقة</div></div>
+      <div class="sett-row" style="border-bottom:none"><div class="sett-top"><div class="sett-label">وضع التعديل</div><button class="toggle" id="tog-sub-editmode"></button></div><div class="sett-desc">عرض أزرار التعديل والسجل والحذف على البطاقة</div></div>
     </div>
 
     <!-- add form + quick-add presets (shown when add button pressed) -->
     <div id="sub-add-body" style="display:none;margin-top:10px">
-      <input id="sub-name" type="text" inputmode="text" placeholder="اسم الاشتراك — إنترنت، Netflix..." autocomplete="off" style="text-align:right;margin-bottom:8px">
+      <div style="display:flex;gap:8px;align-items:center;flex-direction:row-reverse;margin-bottom:8px">
+        <input id="sub-name" type="text" inputmode="text" placeholder="اسم الاشتراك — إنترنت، Netflix..." autocomplete="off" style="flex:1;min-width:0;text-align:right;margin:0">
+        <button type="button" id="sub-icon-btn" title="اضغط لأيقونة عشوائية 🎲" style="flex-shrink:0;width:44px;height:44px;border-radius:12px;border:2px solid var(--acc);background:transparent;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;padding:0">🎬</button>
+        <input type="color" id="sub-icon-color" value="#2dd4bf" title="اختر لون الأيقونة" style="flex-shrink:0;width:40px;height:44px;border:none;background:transparent;cursor:pointer;padding:0;border-radius:10px">
+      </div>
+      <!-- quick add presets — tap header to reveal all apps, tap an app to fill the name -->
+      <div id="sub-quick-toggle" style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-direction:row-reverse;cursor:pointer;font-size:12px;color:var(--sub);font-weight:700;margin:0 0 8px;text-align:right;-webkit-tap-highlight-color:transparent">
+        <span>⚡ اشتراكات شائعة — إضافة سريعة</span>
+        <span id="sub-quick-chev" style="transition:transform .25s;font-size:10px;display:inline-block">▾</span>
+      </div>
+      <div id="sub-quick-body" style="display:none;margin-bottom:8px"></div>
       <!-- monthly amount -->
       <div style="margin-bottom:8px">
         <div style="font-size:10px;color:var(--sub);margin-bottom:4px;text-align:right">المبلغ الشهري</div>
@@ -715,9 +736,6 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 10px var(--glow),0 1px 3p
       <input id="sub-end" type="date" style="margin-bottom:4px;direction:ltr;text-align:right">
       <div id="sub-end-preview" style="font-size:11px;color:var(--teal);margin-bottom:10px;text-align:right;min-height:14px;line-height:1.5"></div>
       <button class="btn btn-full" id="btn-add-sub">إضافة اشتراك</button>
-      <!-- quick add presets -->
-      <div style="font-size:12px;color:var(--sub);font-weight:700;margin:14px 0 2px;text-align:right">⚡ اشتراكات شائعة — إضافة سريعة</div>
-      <div id="sub-quick-body"></div>
     </div>
   </div>
 
@@ -868,7 +886,7 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 10px var(--glow),0 1px 3p
   <div class="card">
     <div class="sec-title">المشروع</div>
     <div class="sett-row">
-      <div class="sett-top"><div class="sett-label">الاسم</div><input id="set-proj-name" type="text" inputmode="text" placeholder="وين فلوسي تروح" style="width:130px;padding:6px 10px;text-align:right"></div>
+      <div class="sett-top"><div class="sett-label">الاسم</div><input id="set-proj-name" type="text" inputmode="text" placeholder="وين فلوسي" style="width:130px;padding:6px 10px;text-align:right"></div>
       <div class="sett-desc">يظهر أعلى الشاشة وفي ملف الـ Excel</div>
     </div>
     <div class="sett-row">
@@ -999,6 +1017,25 @@ input[type=range]::-webkit-slider-thumb{box-shadow:0 0 10px var(--glow),0 1px 3p
       <div class="sett-top"><div class="sett-label">دمج "وصلني" مع الراتب</div><button class="toggle on" id="tog-includeextra"></button></div>
       <div class="sett-desc">عند التفعيل: مبالغ "وصلني 🎁" في التتبع تُجمع مع الراتب في بطاقة الرصيد. عند الإيقاف: يظهر الراتب فقط</div>
     </div>
+    <div class="sett-row">
+      <div class="sett-top"><div class="sett-label">خصم الاشتراكات من المتبقي</div><button class="toggle" id="tog-sal-subsubs"></button></div>
+      <div class="sett-desc">يطرح اشتراكات هذا الشهر المستحقة من سطر "المتبقي" عشان يعكس فلوسك الفعلية بعد الاشتراكات</div>
+    </div>
+    <div class="sett-row">
+      <div class="sett-top"><div class="sett-label">إظهار شريط المتبقي</div><button class="toggle on" id="tog-sal-remaining"></button></div>
+      <div class="sett-desc">يعرض سطر "المتبقي" (الرصيد ناقص المصروف) أسفل بطاقة الرصيد</div>
+    </div>
+    <div class="sett-row">
+      <div class="sett-top"><div class="sett-label">إظهار ملاحظة وتاريخ الراتب</div><button class="toggle on" id="tog-sal-note"></button></div>
+      <div class="sett-desc">يعرض شريط ملاحظة الراتب وتاريخ نزوله أسفل البطاقة</div>
+    </div>
+    <div class="sett-row" style="border-bottom:none">
+      <div class="sett-top">
+        <div><div class="sett-label">تنبيه عند انخفاض المتبقي</div><div id="sal-lowpct-sub" style="font-size:10px;color:var(--sub)">20%</div></div>
+        <input id="set-sal-lowpct" type="text" inputmode="decimal" style="width:80px;text-align:center;padding:5px 8px;direction:ltr">
+      </div>
+      <div class="sett-desc">يتلوّن "المتبقي" بالأصفر لما ينزل تحت هذي النسبة من الرصيد (٠ = إيقاف التلوين الأصفر)</div>
+    </div>
   </div>
 
   <!-- ══ DATA ══ -->
@@ -1083,7 +1120,7 @@ create policy "own" on user_data
       </div>
     </div>
     <div style="font-size:11px;color:var(--sub);margin-bottom:10px;text-align:right;line-height:1.5">
-      الملف يشمل ١٢ صفحة: مدفوعات مفصّلة · وصلني · راتب · توزيع التصنيفات · إنفاق شهري ويومي · ديون · ميزانيات · إحصائيات عامة · <b>كل الحركات (بيانات خام للتحليل)</b> · <b>ملخص شهري (دخل/صرف/ادخار)</b> · <b>التصنيف حسب الشهر</b>
+      الملف يشمل حتى ١٣ صفحة: مدفوعات مفصّلة · وصلني · راتب ورصيد · توزيع التصنيفات · إنفاق شهري ويومي · ديون · ميزانيات · <b>اشتراكات متكررة</b> · إحصائيات عامة · <b>كل الحركات (بيانات خام للتحليل)</b> · <b>ملخص شهري (دخل/صرف/ادخار)</b> · <b>التصنيف حسب الشهر</b>
     </div>
     <button class="btn btn-teal btn-full" id="btn-export">📥 تصدير Excel شامل</button>
   </div>
@@ -1379,7 +1416,11 @@ create policy "own" on user_data
     <div class="modal-title">تعديل الاشتراك</div>
     <div class="modal-body" style="margin-bottom:14px">عدّل أي حقل ثم احفظ.</div>
     <div style="font-size:10px;color:var(--sub);margin-bottom:4px;text-align:right">اسم الاشتراك</div>
-    <input id="se-name" type="text" inputmode="text" autocomplete="off" style="text-align:right;margin-bottom:8px">
+    <div style="display:flex;gap:8px;align-items:center;flex-direction:row-reverse;margin-bottom:8px">
+      <input id="se-name" type="text" inputmode="text" autocomplete="off" style="flex:1;min-width:0;text-align:right;margin:0">
+      <button type="button" id="se-icon-btn" title="اضغط لأيقونة عشوائية 🎲" style="flex-shrink:0;width:44px;height:44px;border-radius:12px;border:2px solid var(--acc);background:transparent;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;padding:0">🎲</button>
+      <input type="color" id="se-icon-color" value="#2dd4bf" title="اختر لون الأيقونة" style="flex-shrink:0;width:40px;height:44px;border:none;background:transparent;cursor:pointer;padding:0;border-radius:10px">
+    </div>
     <div style="font-size:10px;color:var(--sub);margin-bottom:4px;text-align:right">المبلغ الشهري</div>
     <input id="se-amt" type="text" inputmode="decimal" placeholder="اختياري" autocomplete="off" style="text-align:center;direction:ltr;margin-bottom:8px">
     <div style="font-size:10px;color:var(--sub);margin-bottom:4px;text-align:right">وصف اختياري</div>
@@ -1440,7 +1481,7 @@ create policy "own" on user_data
 <div id="ios-notif">
   <div id="ios-notif-icon">🥺</div>
   <div id="ios-notif-text">
-    <div id="ios-notif-title">وين فلوسي تروح</div>
+    <div id="ios-notif-title">وين فلوسي</div>
     <div id="ios-notif-body">تكفا ارجع وحط وصف، عشان اعرف بعدين وش شريت 🥺</div>
     <div style="margin-top:8px"><button id="ios-notif-desc-btn" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:8px;padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--ff)">إضافة وصف ✏️</button></div>
     <div id="ios-notif-progress"><div id="ios-notif-progress-bar"></div></div>
@@ -1759,7 +1800,7 @@ var iosNotifTimer;
 function showIosNotif(opts){
   var el=document.getElementById('ios-notif');
   var icon=opts&&opts.icon||'🥺';
-  var title=opts&&opts.title||(settings.projectName||'وين فلوسي تروح');
+  var title=opts&&opts.title||(settings.projectName||'وين فلوسي');
   var body=opts&&opts.body||'تكفا ارجع وحط وصف، عشان اعرف بعدين وش شريت 🥺';
   var isBudget=opts&&opts.budget;
   document.getElementById('ios-notif-icon').textContent=icon;
@@ -1781,10 +1822,10 @@ var monthly    = load('pt_monthly',[]);
 var templates  = load('pt_templates',{});
 var settings   = load('pt_settings',{
   darkMode:true, currency:'SAR', confirmDelete:true, showEmoji:true,
-  sortBy:'Newest', highlightOver:500, compactMode:false, showRunningTotal:true,
-  accentColor:'#2dd4bf', projectName:'وين فلوسي تروح', colorCat:false, hideTime:false,
-  showCharts:true, budgetWarn:true, weekMode:'fixed', monthlyInTotal:false, navPos:'top', includeExtra:true, uiSize:'normal',
-  trackerTotal:'day', resetHour:5, monthlyBudget:0, mbAlert:{month:'',level:0}, cal:'hijri'
+  sortBy:'Newest', highlightOver:500, compactMode:true, showRunningTotal:true,
+  accentColor:'#2dd4bf', projectName:'وين فلوسي', colorCat:true, hideTime:true,
+  showCharts:false, budgetWarn:false, weekMode:'fixed', monthlyInTotal:false, navPos:'bottom', includeExtra:true, uiSize:'normal',
+  trackerTotal:'day', resetHour:5, monthlyBudget:0, mbAlert:{month:'',level:0}, cal:'greg'
 });
 // migrate older saved settings that predate monthly budget
 if(typeof settings.monthlyBudget==='undefined') settings.monthlyBudget=0;
@@ -1793,8 +1834,18 @@ if(!settings.mbAlert||typeof settings.mbAlert!=='object') settings.mbAlert={mont
 if(typeof settings.subShowSummary==='undefined') settings.subShowSummary=true;
 if(typeof settings.subShowPrice==='undefined') settings.subShowPrice=true;
 if(typeof settings.subShowDue==='undefined') settings.subShowDue=true;
+if(typeof settings.subCompact==='undefined') settings.subCompact=false;
+// الوصف (description + dates) and وضع التعديل (action buttons) — replace the old subMiniCard toggle.
+// migrate: old "mini cards on" hid both, so map it to both new toggles off.
+if(typeof settings.subShowInfo==='undefined') settings.subShowInfo = settings.subMiniCard!==true;
+if(typeof settings.subEditMode==='undefined') settings.subEditMode = settings.subMiniCard!==true;
+// month-balance card display options
+if(typeof settings.salSubtractSubs==='undefined') settings.salSubtractSubs=false;
+if(typeof settings.salShowRemaining==='undefined') settings.salShowRemaining=true;
+if(typeof settings.salShowNote==='undefined') settings.salShowNote=true;
+if(typeof settings.salLowPct!=='number') settings.salLowPct=20;
 // calendar choice: 'hijri' (Umm al-Qura) or 'greg' (Gregorian)
-if(settings.cal!=='greg'&&settings.cal!=='hijri') settings.cal='hijri';
+if(settings.cal!=='greg'&&settings.cal!=='hijri') settings.cal='greg';
 // Date locale that follows the user's calendar choice — used everywhere dates are shown (app + Excel)
 function calLoc(){ return settings.cal==='greg' ? 'ar-SA-u-ca-gregory' : 'ar-SA-u-ca-islamic-umalqura'; }
 
@@ -2570,22 +2621,175 @@ function renderDebts(){
 // SUBSCRIPTIONS — recurring monthly bills checklist
 // ════════════════════════════════════════════════
 // Famous subscriptions for quick-add, grouped by type
+// ── subscription logos ──────────────────────────────────────────────
+// By default logos load live from a CDN (Clearbit, with a Google-favicon fallback) — works online with zero setup.
+// To use the local copies in /logos instead (offline): run logos/download-logos.ps1, then set SUB_LOGO_LOCAL=true.
+var SUB_LOGO_LOCAL=false;
+var SUB_LOGOS={
+  'ChatGPT':{s:'chatgpt',d:'openai.com'},
+  'Claude':{s:'claude',d:'anthropic.com'},
+  'Gemini':{s:'gemini',d:'google.com',f:'gemini.google.com'},
+  'Perplexity':{s:'perplexity',d:'perplexity.ai'},
+  'Grok':{s:'grok',d:'x.ai'},
+  'Midjourney':{s:'midjourney',d:'midjourney.com'},
+  'GitHub Copilot':{s:'github-copilot',d:'github.com'},
+  'Cursor':{s:'cursor',d:'cursor.com'},
+  'Netflix':{s:'netflix',d:'netflix.com'},
+  'شاهد VIP':{s:'shahid',d:'shahid.net'},
+  'OSN+':{s:'osn',d:'osn.com'},
+  'Prime Video':{s:'prime-video',d:'primevideo.com'},
+  'Disney+':{s:'disney-plus',d:'disneyplus.com'},
+  'STARZPLAY':{s:'starzplay',d:'starzplay.com'},
+  'YouTube Premium':{s:'youtube-premium',d:'youtube.com'},
+  'Apple TV+':{s:'apple-tv',d:'apple.com',f:'tv.apple.com'},
+  'Spotify':{s:'spotify',d:'spotify.com'},
+  'Apple Music':{s:'apple-music',d:'apple.com',f:'music.apple.com'},
+  'أنغامي':{s:'anghami',d:'anghami.com'},
+  'YouTube Music':{s:'youtube-music',d:'youtube.com',f:'music.youtube.com'},
+  'PlayStation Plus':{s:'playstation-plus',d:'playstation.com'},
+  'Xbox Game Pass':{s:'xbox-game-pass',d:'xbox.com'},
+  'Nintendo Online':{s:'nintendo',d:'nintendo.com'},
+  'EA Play':{s:'ea-play',d:'ea.com'},
+  'iCloud+':{s:'icloud',d:'icloud.com'},
+  'Google One':{s:'google-one',d:'google.com',f:'one.google.com'},
+  'Dropbox':{s:'dropbox',d:'dropbox.com'},
+  'OneDrive':{s:'onedrive',d:'onedrive.com',f:'onedrive.live.com'},
+  'Microsoft 365':{s:'microsoft-365',d:'microsoft.com',f:'office.com'},
+  'Adobe Creative Cloud':{s:'adobe-cc',d:'adobe.com'},
+  'Canva Pro':{s:'canva',d:'canva.com'},
+  'Notion':{s:'notion',d:'notion.so'},
+  'LinkedIn Premium':{s:'linkedin',d:'linkedin.com'},
+  'Figma':{s:'figma',d:'figma.com'},
+  'TradingView':{s:'tradingview',d:'tradingview.com'},
+  'eToro':{s:'etoro',d:'etoro.com'},
+  'Investing.com':{s:'investing',d:'investing.com'},
+  'باقة STC':{s:'stc',d:'stc.com.sa'},
+  'باقة Mobily':{s:'mobily',d:'mobily.com.sa'},
+  'باقة Zain':{s:'zain',d:'zain.com',f:'sa.zain.com'},
+  'Apple Fitness+':{s:'apple-fitness',d:'apple.com',f:'fitness.apple.com'},
+  'Calm':{s:'calm',d:'calm.com'},
+  // ── added: apps popular in Saudi Arabia ──
+  'DeepSeek':{s:'deepseek',d:'deepseek.com'},
+  'ElevenLabs':{s:'elevenlabs',d:'elevenlabs.io'},
+  'TOD':{s:'tod',d:'tod.tv'},
+  'beIN SPORTS':{s:'bein-sports',d:'beinsports.com'},
+  'Rotana':{s:'rotana',d:'rotana.net'},
+  'Jawwy TV':{s:'jawwy-tv',d:'jawwy.sa'},
+  'Weyyak':{s:'weyyak',d:'weyyak.com'},
+  'Deezer':{s:'deezer',d:'deezer.com'},
+  'SoundCloud':{s:'soundcloud',d:'soundcloud.com'},
+  'Discord Nitro':{s:'discord',d:'discord.com'},
+  'Roblox':{s:'roblox',d:'roblox.com'},
+  'Twitch':{s:'twitch',d:'twitch.tv'},
+  'هنقرستيشن':{s:'hungerstation',d:'hungerstation.com'},
+  'جاهز':{s:'jahez',d:'jahez.net'},
+  'مرسول':{s:'mrsool',d:'mrsool.co'},
+  'ToYou':{s:'toyou',d:'toyou.io'},
+  'ذا شفز':{s:'thechefz',d:'thechefz.co'},
+  'نون':{s:'noon',d:'noon.com'},
+  'Amazon Prime':{s:'amazon',d:'amazon.sa'},
+  'كريم Plus':{s:'careem',d:'careem.com'},
+  'Uber One':{s:'uber',d:'uber.com'},
+  'Zoom':{s:'zoom',d:'zoom.us'},
+  'Grammarly':{s:'grammarly',d:'grammarly.com'},
+  'Slack':{s:'slack',d:'slack.com'},
+  'Trello':{s:'trello',d:'trello.com'},
+  'Duolingo':{s:'duolingo',d:'duolingo.com'},
+  'Coursera':{s:'coursera',d:'coursera.org'},
+  'Udemy':{s:'udemy',d:'udemy.com'},
+  'Storytel':{s:'storytel',d:'storytel.com'},
+  'Binance':{s:'binance',d:'binance.com'},
+  'باقة Salam':{s:'salam',d:'salam.sa'},
+  'باقة Lebara':{s:'lebara',d:'lebara.sa'},
+  'باقة Virgin':{s:'virgin-mobile',d:'virginmobile.sa'},
+  'وقت اللياقة':{s:'fitness-time',d:'fitnesstime.com.sa'},
+  'Headspace':{s:'headspace',d:'headspace.com'},
+  // ── added: social, KSA streaming/events, delivery, e-commerce, gaming, libraries ──
+  'Snapchat+':{s:'snapchat',d:'snapchat.com'},
+  'X Premium':{s:'x-twitter',d:'x.com'},
+  'جاكو':{s:'jaco',d:'jaco.live'},
+  'Yango Play':{s:'yango-play',d:'yango.com',f:'play.yango.com'},
+  'webook':{s:'webook',d:'webook.com'},
+  'شاهد الرياضي':{s:'shahid',d:'shahid.net'},
+  'STARZPLAY Sports':{s:'starzplay',d:'starzplay.com'},
+  'Jawwy TV Pro':{s:'jawwy-tv',d:'jawwy.tv'},
+  'نينجا':{s:'ninja',d:'ninja.sa'},
+  'كالو':{s:'calo',d:'calo.app'},
+  'سلة':{s:'salla',d:'salla.sa'},
+  'زد':{s:'zid',d:'zid.sa'},
+  'حراج':{s:'haraj',d:'haraj.com.sa'},
+  'PUBG Mobile':{s:'pubg-mobile',d:'pubgmobile.com'},
+  'أبجد':{s:'abjjad',d:'abjjad.com'},
+  'رفوف':{s:'rufoof',d:'rufoof.com'}
+  // 'اشتراك نادي' has no brand logo — intentionally omitted (falls back to its emoji)
+};
+// returns an <img> tag (or '' if the name has no known logo)
+function subLogoHtml(name,size){
+  var m=SUB_LOGOS[name]; if(!m) return '';
+  size=size||18;
+  var fav='https://www.google.com/s2/favicons?domain='+(m.f||m.d)+'&sz=64';
+  var primary=SUB_LOGO_LOCAL ? ('logos/'+m.s+'.png') : ('https://logo.clearbit.com/'+m.d);
+  return '<img class="sub-logo" src="'+primary+'" loading="lazy" alt="" '+
+         'style="width:'+size+'px;height:'+size+'px" '+
+         'onerror="this.onerror=null;this.src=\''+fav+'\'">';
+}
+// ── custom subscription icon + color (chosen in the add/edit form) ──
+var SUB_ICON_POOL=['🎬','🎵','🎮','📺','🍔','🛒','🛍️','☁️','📱','💻','📶','💡','💧','🔥','🏠','🚗','✈️','💳','🏦','💰','📈','📚','✏️','🎁','🐱','🐶','💪','⚽','🩺','💊','☕','🍕','🌯','🎟️','🧾','🔧','🌙','🎓','🪴','🧺','🎧','📰','🛜','🪙','🎯','🧠'];
+function randSubIcon(){ return SUB_ICON_POOL[Math.floor(Math.random()*SUB_ICON_POOL.length)]; }
+// icon chip for a subscription: custom emoji+color if set, otherwise the brand logo by name
+function subIconHtml(x,size){
+  size=size||18;
+  if(x&&x.icon){
+    var col=x.iconColor||'var(--acc)';
+    return '<span class="sub-logo" style="width:'+size+'px;height:'+size+'px;display:inline-flex;align-items:center;justify-content:center;'+
+           'font-size:'+Math.round(size*0.6)+'px;line-height:1;background:color-mix(in srgb,'+col+' 20%,#fff);border:1.5px solid '+col+'">'+x.icon+'</span>';
+  }
+  return subLogoHtml(x&&x.name,size);
+}
+// add-form custom-icon state — random by default; cleared when a brand preset is picked (so its logo shows)
+var subAddIcon='', subAddColor='#2dd4bf';
+function paintSubIconBtn(){
+  var b=document.getElementById('sub-icon-btn'); if(!b) return;
+  if(subAddIcon){ b.textContent=subAddIcon; b.style.borderColor=subAddColor; b.style.background='color-mix(in srgb,'+subAddColor+' 20%,transparent)'; b.title='اضغط لأيقونة عشوائية 🎲 — أو اتركها للشعار'; }
+  else { b.textContent='🎲'; b.style.borderColor='var(--acc)'; b.style.background='transparent'; b.title='اضغط لإضافة أيقونة عشوائية'; }
+}
+function rollSubIcon(){ subAddIcon=randSubIcon(); paintSubIconBtn(); }
+function clearSubIcon(){ subAddIcon=''; paintSubIconBtn(); }
+function initSubIconPicker(){ var c=document.getElementById('sub-icon-color'); if(c) subAddColor=c.value||'#2dd4bf'; subAddIcon=randSubIcon(); paintSubIconBtn(); }
+// edit-modal icon state (mirrors the add-form picker)
+var seIcon='', seColor='#2dd4bf';
+function paintSeIconBtn(){
+  var b=document.getElementById('se-icon-btn'); if(!b) return;
+  if(seIcon){ b.textContent=seIcon; b.style.borderColor=seColor; b.style.background='color-mix(in srgb,'+seColor+' 20%,transparent)'; }
+  else { b.textContent='🎲'; b.style.borderColor='var(--acc)'; b.style.background='transparent'; }
+}
 var SUB_PRESETS=[
-  {cat:'🤖 ذكاء اصطناعي', items:['ChatGPT','Claude','Gemini','Perplexity','Grok','Midjourney','GitHub Copilot','Cursor']},
-  {cat:'🎬 بث وترفيه', items:['Netflix','شاهد VIP','OSN+','Prime Video','Disney+','STARZPLAY','YouTube Premium','Apple TV+']},
-  {cat:'🎵 موسيقى', items:['Spotify','Apple Music','أنغامي','YouTube Music']},
-  {cat:'🎮 ألعاب', items:['PlayStation Plus','Xbox Game Pass','Apple Arcade','Nintendo Online','EA Play']},
+  {cat:'🤖 ذكاء اصطناعي', items:['ChatGPT','Claude','Gemini','Perplexity','Grok','DeepSeek','Midjourney','ElevenLabs','GitHub Copilot','Cursor']},
+  {cat:'💬 تواصل اجتماعي', items:['Snapchat+','X Premium','جاكو']},
+  {cat:'🎬 بث وترفيه', items:['Netflix','شاهد VIP','شاهد الرياضي','OSN+','TOD','beIN SPORTS','Prime Video','Disney+','STARZPLAY','STARZPLAY Sports','YouTube Premium','Apple TV+','Rotana','Jawwy TV','Jawwy TV Pro','Weyyak','Yango Play','webook']},
+  {cat:'🎵 موسيقى', items:['Spotify','Apple Music','أنغامي','YouTube Music','Deezer','SoundCloud']},
+  {cat:'🎮 ألعاب', items:['PlayStation Plus','Xbox Game Pass','Nintendo Online','EA Play','PUBG Mobile','Discord Nitro','Roblox','Twitch']},
+  {cat:'🍔 توصيل وتسوق', items:['هنقرستيشن','جاهز','مرسول','ToYou','ذا شفز','نينجا','كالو','نون','Amazon Prime','كريم Plus','Uber One']},
+  {cat:'🛒 متاجر وتجارة', items:['سلة','زد','حراج']},
   {cat:'☁️ تخزين سحابي', items:['iCloud+','Google One','Dropbox','OneDrive']},
-  {cat:'💼 إنتاجية وعمل', items:['Microsoft 365','Adobe Creative Cloud','Canva Pro','Notion','LinkedIn Premium','Figma']},
-  {cat:'📈 مالية واستثمار', items:['TradingView','eToro','Investing.com']},
-  {cat:'📱 اتصالات', items:['باقة STC','باقة Mobily','باقة Zain']},
-  {cat:'🏋️ صحة ولياقة', items:['اشتراك نادي','Apple Fitness+','Calm']}
+  {cat:'💼 إنتاجية وعمل', items:['Microsoft 365','Adobe Creative Cloud','Canva Pro','Notion','LinkedIn Premium','Figma','Zoom','Grammarly','Slack','Trello']},
+  {cat:'📚 تعليم وقراءة', items:['Duolingo','Coursera','Udemy','Storytel','أبجد','رفوف']},
+  {cat:'📈 مالية واستثمار', items:['TradingView','eToro','Investing.com','Binance']},
+  {cat:'📱 اتصالات', items:['باقة STC','باقة Mobily','باقة Zain','باقة Salam','باقة Lebara','باقة Virgin']},
+  {cat:'🏋️ صحة ولياقة', items:['اشتراك نادي','وقت اللياقة','Apple Fitness+','Calm','Headspace']}
 ];
 function setSubAddOpen(open){
   const b=document.getElementById('sub-add-body'); if(!b) return;
-  if(open) renderSubQuick();
   b.style.display=open?'block':'none';
+  if(!open) setSubQuickOpen(false);   // reset the apps list when the form closes
   const lbl=document.getElementById('sub-add-label'); if(lbl) lbl.textContent=open?'إغلاق':'إضافة اشتراك جديد';
+}
+// show / hide the popular-apps list (built lazily on first reveal)
+function setSubQuickOpen(open){
+  const body=document.getElementById('sub-quick-body'); if(!body) return;
+  if(open) renderSubQuick();
+  body.style.display=open?'block':'none';
+  const chev=document.getElementById('sub-quick-chev'); if(chev) chev.style.transform=open?'rotate(180deg)':'none';
 }
 function renderSubQuick(){
   const body=document.getElementById('sub-quick-body');
@@ -2595,16 +2799,16 @@ function renderSubQuick(){
   SUB_PRESETS.forEach(g=>{
     html+='<div style="font-size:11px;color:var(--sub);font-weight:700;margin:12px 0 7px;text-align:right">'+g.cat+'</div>';
     html+='<div style="display:flex;flex-wrap:wrap;gap:6px;flex-direction:row-reverse">';
-    g.items.forEach(n=>{ html+='<button type="button" class="pill sub-preset" data-name="'+n+'">'+n+'</button>'; });
+    g.items.forEach(n=>{ html+='<button type="button" class="pill sub-preset" data-name="'+n+'">'+subLogoHtml(n,16)+'<span>'+n+'</span></button>'; });
     html+='</div>';
   });
   body.innerHTML=html;
   body.querySelectorAll('.sub-preset').forEach(b=>b.addEventListener('click',function(){
     const name=this.dataset.name;
-    setSubAddOpen(true);
     document.getElementById('sub-name').value=name;
+    if(SUB_LOGOS[name]) clearSubIcon();   // brand has a logo → use it instead of a custom icon
+    setSubQuickOpen(false);   // hide the apps list after picking one
     document.getElementById('sub-amt').focus();
-    document.getElementById('sub-add-body').scrollIntoView({behavior:'smooth',block:'center'});
     showToast('اكتب المبلغ واختر يوم الخصم لـ '+name);
   }));
 }
@@ -2669,6 +2873,34 @@ function subInfoBlock(x){
   if(!parts.length) return '';
   return '<div style="margin-top:8px;padding-top:8px;border-top:1px dashed color-mix(in srgb,var(--sub) 22%,transparent)">'+parts.join('')+'</div>';
 }
+// compact-mode card: two-column grid, bigger logo, no start/renew dates.
+// reuses sub-check / sub-edit / sub-hist / sub-del classes so the shared listeners below pick it up.
+function subCompactCard(x,i,paid,statusHtml,showPrice,upcoming){
+  const dim=paid||upcoming;
+  const editMode=settings.subEditMode!==false;   // وضع التعديل: show action buttons
+  const showInfo=settings.subShowInfo!==false;    // الوصف: show description + start/renew dates
+  const priceChip=(showPrice&&x.amount>0)
+    ?'<span style="font-weight:700;color:'+(dim?'var(--sub)':'var(--acc)')+';direction:ltr;white-space:nowrap;font-size:12px;background:color-mix(in srgb,'+(dim?'var(--sub)':'var(--acc)')+' 12%,transparent);padding:2px 7px;border-radius:7px">'+fmt(x.amount)+' '+settings.currency+'</span>'
+    :'';
+  const dayBadge=upcoming?'':'<span class="badge badge-sub" style="font-size:10px">يوم '+x.day+'</span>';
+  const info=showInfo?subInfoBlock(x):'';
+  const actions=!editMode?'':
+    '<div style="display:flex;gap:8px;align-items:center;flex-direction:row-reverse;justify-content:flex-start;margin-top:7px;padding-top:6px;border-top:1px dashed color-mix(in srgb,var(--sub) 18%,transparent)">'+
+      '<button class="del-btn sub-edit" data-i="'+i+'" title="تعديل الاشتراك" style="color:color-mix(in srgb,var(--acc) 65%,var(--sub))">✎</button>'+
+      '<button class="del-btn sub-hist" data-i="'+i+'" title="سجّل دفعات أشهر سابقة" style="color:color-mix(in srgb,var(--teal) 75%,var(--sub))">📅</button>'+
+      '<button class="del-btn sub-del" data-i="'+i+'" title="حذف الاشتراك" style="color:color-mix(in srgb,var(--acc) 50%,var(--sub))">✕</button>'+
+    '</div>';
+  return '<div style="background:color-mix(in srgb,var(--acc) 6%,transparent);border:1px solid color-mix(in srgb,var(--sub) 14%,transparent);border-radius:13px;padding:9px;opacity:'+(paid?.55:(upcoming?.7:1))+';transition:opacity .2s">'+
+    '<div style="display:flex;align-items:center;gap:8px;flex-direction:row-reverse">'+
+      (upcoming?'':'<input type="checkbox" class="ms-check sub-check" data-i="'+i+'" '+(paid?'checked':'')+' style="flex-shrink:0;accent-color:var(--acc)">')+
+      '<span style="flex:1;min-width:0;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;font-weight:700;text-decoration:'+(paid?'line-through':'none')+';color:'+(dim?'var(--sub)':'var(--text)')+'">'+x.name+'</span>'+
+      subIconHtml(x,36)+
+    '</div>'+
+    '<div style="display:flex;gap:5px;align-items:center;flex-wrap:wrap;flex-direction:row-reverse;margin-top:7px;min-height:20px">'+priceChip+statusHtml+dayBadge+'</div>'+
+    info+
+    actions+
+  '</div>';
+}
 // live preview text for the "end date" picker (auto vs manual)
 function updateEndPreview(startVal,cycleVal,endVal,el){
   if(!el) return;
@@ -2719,6 +2951,12 @@ function renderSubs(){
   upcomingSubs.sort((a,b)=> a.info.nextIdx-b.info.nextIdx || (a.x.day||1)-(b.x.day||1));
 
   list.innerHTML='';
+  const compact=settings.subCompact===true;          // Tiles (two columns) vs Details (rows)
+  const editMode=settings.subEditMode!==false;        // وضع التعديل: show ✎/📅/✕ buttons
+  const showInfo=settings.subShowInfo!==false;        // الوصف: show description + start/renew dates
+  const gridCss='display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px';
+  let dueWrap=list;
+  if(compact){ dueWrap=document.createElement('div'); dueWrap.style.cssText=gridCss; list.appendChild(dueWrap); }
   dueSubs.forEach(({x,i},pos)=>{
     const paid=(x.paidMonths||[]).includes(mk);
     let statusHtml;
@@ -2726,6 +2964,7 @@ function renderSubs(){
     else if(todayDay===x.day)      statusHtml='<span class="badge badge-err">📅 تستحق اليوم</span>';
     else if(todayDay>x.day)        statusHtml='<span class="badge badge-err">⚠ متأخر '+(todayDay-x.day)+' يوم</span>';
     else                           statusHtml='<span class="badge">خلال '+(x.day-todayDay)+' يوم</span>';
+    if(compact){ dueWrap.insertAdjacentHTML('beforeend', subCompactCard(x,i,paid,showDue?statusHtml:'',showPrice,false)); return; }
     const histCount=(x.paidMonths||[]).length;
     const cyc=x.cycle||1;
     const row=document.createElement('div');
@@ -2734,6 +2973,7 @@ function renderSubs(){
     row.innerHTML=
       '<div style="display:flex;align-items:center;gap:10px;flex-direction:row-reverse">'+
         '<input type="checkbox" class="ms-check sub-check" data-i="'+i+'" '+(paid?'checked':'')+' style="flex-shrink:0;accent-color:var(--acc)">'+
+        subIconHtml(x,20)+
         '<span style="flex:1;min-width:0;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;font-weight:600;text-decoration:'+(paid?'line-through':'none')+';color:'+(paid?'var(--sub)':'var(--text)')+'">'+x.name+'</span>'+
         '<div style="display:flex;gap:6px;align-items:center;flex-direction:row-reverse;flex-shrink:0">'+
           (histCount?'<span style="font-size:10px;color:var(--sub)">دفعتها '+histCount+'×</span>':'')+
@@ -2742,11 +2982,12 @@ function renderSubs(){
           (cyc>1?'<span class="badge badge-sub">🔁 '+cycleLabel(cyc)+'</span>':'')+
           '<span class="badge badge-sub">يوم '+x.day+'</span>'+
         '</div>'+
-        '<button class="del-btn sub-edit" data-i="'+i+'" title="تعديل الاشتراك" style="color:color-mix(in srgb,var(--acc) 65%,var(--sub));flex-shrink:0">✎</button>'+
-        '<button class="del-btn sub-hist" data-i="'+i+'" title="سجّل دفعات أشهر سابقة" style="color:color-mix(in srgb,var(--teal) 75%,var(--sub));flex-shrink:0">📅</button>'+
-        '<button class="del-btn sub-del" data-i="'+i+'" style="color:color-mix(in srgb,var(--acc) 50%,var(--sub));flex-shrink:0">✕</button>'+
+        (editMode?
+          '<button class="del-btn sub-edit" data-i="'+i+'" title="تعديل الاشتراك" style="color:color-mix(in srgb,var(--acc) 65%,var(--sub));flex-shrink:0">✎</button>'+
+          '<button class="del-btn sub-hist" data-i="'+i+'" title="سجّل دفعات أشهر سابقة" style="color:color-mix(in srgb,var(--teal) 75%,var(--sub));flex-shrink:0">📅</button>'+
+          '<button class="del-btn sub-del" data-i="'+i+'" style="color:color-mix(in srgb,var(--acc) 50%,var(--sub));flex-shrink:0">✕</button>':'')+
       '</div>'+
-      subInfoBlock(x);
+      (showInfo?subInfoBlock(x):'');
     list.appendChild(row);
   });
 
@@ -2756,14 +2997,22 @@ function renderSubs(){
     hdr.style.cssText='font-size:11px;color:var(--sub);font-weight:700;margin:12px 4px 6px;text-align:right';
     hdr.textContent='📆 قادمة لاحقاً';
     list.appendChild(hdr);
+    let upWrap=list;
+    if(compact){ upWrap=document.createElement('div'); upWrap.style.cssText=gridCss; list.appendChild(upWrap); }
     upcomingSubs.forEach(({x,i})=>{
       const cyc=x.cycle||1;
       const info=subDue(x,curIdx);
       const histCount=(x.paidMonths||[]).length;
+      if(compact){
+        const st='<span class="badge">🗓 '+monthIdxLabel(info.nextIdx)+'</span>'+(cyc>1?'<span class="badge badge-sub">🔁 '+cycleLabel(cyc)+'</span>':'');
+        upWrap.insertAdjacentHTML('beforeend', subCompactCard(x,i,false,st,showPrice,true));
+        return;
+      }
       const row=document.createElement('div');
       row.style.cssText='padding:10px 8px;border-radius:10px;margin-bottom:4px;opacity:.6';
       row.innerHTML=
         '<div style="display:flex;align-items:center;gap:10px;flex-direction:row-reverse">'+
+          subIconHtml(x,20)+
           '<span style="flex:1;min-width:0;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;font-weight:600;color:var(--sub)">'+x.name+'</span>'+
           '<div style="display:flex;gap:6px;align-items:center;flex-direction:row-reverse;flex-shrink:0">'+
             (histCount?'<span style="font-size:10px;color:var(--sub)">دفعتها '+histCount+'×</span>':'')+
@@ -2771,11 +3020,12 @@ function renderSubs(){
             '<span class="badge badge-sub">🔁 '+cycleLabel(cyc)+'</span>'+
             '<span class="badge">🗓 تستحق '+monthIdxLabel(info.nextIdx)+'</span>'+
           '</div>'+
-          '<button class="del-btn sub-edit" data-i="'+i+'" title="تعديل الاشتراك" style="color:color-mix(in srgb,var(--acc) 65%,var(--sub));flex-shrink:0">✎</button>'+
-          '<button class="del-btn sub-hist" data-i="'+i+'" title="سجّل دفعات أشهر سابقة" style="color:color-mix(in srgb,var(--teal) 75%,var(--sub));flex-shrink:0">📅</button>'+
-          '<button class="del-btn sub-del" data-i="'+i+'" style="color:color-mix(in srgb,var(--acc) 50%,var(--sub));flex-shrink:0">✕</button>'+
+          (editMode?
+            '<button class="del-btn sub-edit" data-i="'+i+'" title="تعديل الاشتراك" style="color:color-mix(in srgb,var(--acc) 65%,var(--sub));flex-shrink:0">✎</button>'+
+            '<button class="del-btn sub-hist" data-i="'+i+'" title="سجّل دفعات أشهر سابقة" style="color:color-mix(in srgb,var(--teal) 75%,var(--sub));flex-shrink:0">📅</button>'+
+            '<button class="del-btn sub-del" data-i="'+i+'" style="color:color-mix(in srgb,var(--acc) 50%,var(--sub));flex-shrink:0">✕</button>':'')+
         '</div>'+
-        subInfoBlock(x);
+        (showInfo?subInfoBlock(x):'');
       list.appendChild(row);
     });
   }
@@ -2835,6 +3085,9 @@ function openSubEdit(i){
   document.getElementById('se-cycle').value=String(x.cycle||1);
   document.getElementById('se-start').value=x.startDate || (x.startMonth?x.startMonth+'-01':'');
   document.getElementById('se-end').value=x.endOverride||'';
+  seIcon=x.icon||''; seColor=x.iconColor||'#2dd4bf';
+  var seCol=document.getElementById('se-icon-color'); if(seCol) seCol.value=seColor;
+  paintSeIconBtn();
   _seEndPreview();
   document.getElementById('sub-edit-modal').classList.add('open');
 }
@@ -2856,6 +3109,7 @@ function saveSubEdit(){
   var o=subs[i];
   o.name=name; o.amount=amount; o.desc=desc; o.day=day; o.cycle=cycle;
   o.startDate=startDate; o.startMonth=startDate.slice(0,7); o.endOverride=endOverride;
+  if(seIcon){ o.icon=seIcon; o.iconColor=seColor; } else { delete o.icon; delete o.iconColor; }
   save('pt_subs',subs);
   closeSubEdit(); renderSubs(); showToast('تم تحديث الاشتراك ✓');
 }
@@ -2940,13 +3194,23 @@ function renderSalary(){
     if(remBar){
       const mr=monthRange();
       const spent=entries.filter(e=>!e.isIncome&&isoDate(e.date)>=mr.start&&isoDate(e.date)<=mr.end).reduce((s,e)=>s+e.amount,0);
-      const rem=totalBalance-spent;
-      remBar.style.display='flex';
-      remBar.style.justifyContent='space-between';
-      const remColor=rem<0?'#f87171':rem<totalBalance*0.2?'#fbbf24':'#34d399';
-      remVal.textContent=fmt(Math.abs(rem))+' '+settings.currency;
-      remVal.style.color=remColor;
-      remLbl.textContent=rem>=0?'المتبقي':'تجاوزت الرصيد بـ';
+      // optionally subtract this month's due subscriptions from the remaining
+      let subsDue=0;
+      if(settings.salSubtractSubs&&typeof subs!=='undefined'&&subs.length){
+        const curIdx=monthIdx(monthKey());
+        subs.forEach(x=>{ if(subDue(x,curIdx).due) subsDue+=(x.amount||0); });
+      }
+      const rem=totalBalance-spent-subsDue;
+      if(settings.salShowRemaining===false){ remBar.style.display='none'; }
+      else {
+        const lowPct=(typeof settings.salLowPct==='number'?settings.salLowPct:20)/100;
+        remBar.style.display='flex';
+        remBar.style.justifyContent='space-between';
+        const remColor=rem<0?'#f87171':(lowPct>0&&rem<totalBalance*lowPct?'#fbbf24':'#34d399');
+        remVal.textContent=fmt(Math.abs(rem))+' '+settings.currency;
+        remVal.style.color=remColor;
+        remLbl.textContent=rem>=0?(subsDue>0?'المتبقي بعد الاشتراكات':'المتبقي'):'تجاوزت الرصيد بـ';
+      }
     }
   }
 
@@ -2954,6 +3218,8 @@ function renderSalary(){
   const noteBar=document.getElementById('salary-note-bar');
   const noteTxt=document.getElementById('salary-note-text');
   if(noteBar&&noteTxt){
+    if(settings.salShowNote===false){ noteBar.style.display='none'; }
+    else {
     const bits=[];
     if(salaryBase>0&&salRec.date){
       let dlabel='';
@@ -2963,6 +3229,7 @@ function renderSalary(){
     if(salRec.note) bits.push(salRec.note);
     if(bits.length){ noteTxt.textContent=bits.join('   ·   '); noteBar.style.display='flex'; }
     else noteBar.style.display='none';
+    }
   }
 
   // Extra income entries now shown in tracker list via isIncome flag
@@ -3034,13 +3301,14 @@ function applyNavPos(pos){
 function applySettings(){
   applyAccent(settings.accentColor);
   applyDark(settings.darkMode);
-  document.getElementById('logo').textContent=settings.projectName||'وين فلوسي تروح';
+  document.getElementById('logo').textContent=settings.projectName||'وين فلوسي';
   document.getElementById('set-proj-name').value=settings.projectName||'';
   document.getElementById('set-currency').value=settings.currency;
   document.getElementById('set-calendar').value=settings.cal||'hijri';
   document.getElementById('set-sort').value=settings.sortBy;
   document.getElementById('set-highlight').value=settings.highlightOver;
   document.getElementById('highlight-sub').textContent=`${settings.highlightOver} ${settings.currency}`;
+  { const lp=document.getElementById('set-sal-lowpct'); if(lp){ lp.value=settings.salLowPct; const ls=document.getElementById('sal-lowpct-sub'); if(ls) ls.textContent=settings.salLowPct+'%'; } }
   document.getElementById('set-mbudget').value=settings.monthlyBudget||'';
   document.getElementById('mbudget-sub').textContent=settings.monthlyBudget>0?`${fmt(settings.monthlyBudget)} ${settings.currency}`:'غير مفعّلة';
   document.getElementById('set-week-mode').value=settings.weekMode||'fixed';
@@ -3050,8 +3318,11 @@ function applySettings(){
   document.getElementById('set-tracker-total').value=settings.trackerTotal||'day';
   document.getElementById('set-reset-hour').value=String(settings.resetHour??5);
   applyNavPos(settings.navPos||'top');
-  const togMap={dark:'darkMode',confirm:'confirmDelete',emoji:'showEmoji',compact:'compactMode',running:'showRunningTotal',colorcat:'colorCat',hidetime:'hideTime',charts:'showCharts',budgetwarn:'budgetWarn',includeextra:'includeExtra','sub-summary':'subShowSummary','sub-price':'subShowPrice','sub-due':'subShowDue'};
+  const togMap={dark:'darkMode',confirm:'confirmDelete',emoji:'showEmoji',compact:'compactMode',running:'showRunningTotal',colorcat:'colorCat',hidetime:'hideTime',charts:'showCharts',budgetwarn:'budgetWarn',includeextra:'includeExtra','sub-summary':'subShowSummary','sub-price':'subShowPrice','sub-due':'subShowDue','sub-info':'subShowInfo','sub-editmode':'subEditMode','sal-subsubs':'salSubtractSubs','sal-remaining':'salShowRemaining','sal-note':'salShowNote'};
   Object.entries(togMap).forEach(([k,sk])=>{const el=document.getElementById('tog-'+k); if(el) el.classList.toggle('on',!!settings[sk]);});
+  // subscription view switcher (Tiles = two columns / Details = rows)
+  { const view=settings.subCompact?'tiles':'details';
+    document.querySelectorAll('#seg-sub-view .seg-btn').forEach(b=>b.classList.toggle('on',b.dataset.view===view)); }
   // swatches — sorted by hue (yellow → orange → red → … ), neutrals last
   const sw=document.getElementById('color-swatches'); sw.innerHTML='';
   [...ACCENTS].sort((a,b)=>{
@@ -3088,7 +3359,7 @@ function exportXLSX(){
   }
   const wb=XLSX.utils.book_new();
   const CUR=settings.currency;
-  const proj=(settings.projectName||'وين فلوسي تروح');
+  const proj=(settings.projectName||'وين فلوسي');
   const now=new Date();
   const curMonth=isoDate(now).slice(0,7);
 
@@ -3704,11 +3975,12 @@ function init(){
   })();
 
   // arabic numerals
-  ['set-highlight','set-mbudget','bm-weekly','bm-daily','bm-monthly','edit-amt'].forEach(id=>{
+  ['set-highlight','set-mbudget','bm-weekly','bm-daily','bm-monthly','edit-amt','set-sal-lowpct'].forEach(id=>{
     const el=document.getElementById(id); if(!el) return;
     el.addEventListener('input',function(){
       const w=toW(this.value); if(w!==this.value){const p=this.selectionStart;this.value=w;try{this.setSelectionRange(p,p);}catch(e){}}
       if(id==='set-highlight'){settings.highlightOver=+w||500;save('pt_settings',settings);document.getElementById('highlight-sub').textContent=`${settings.highlightOver} ${settings.currency}`;}
+      if(id==='set-sal-lowpct'){settings.salLowPct=Math.max(0,Math.min(100,+w||0));save('pt_settings',settings);const ls=document.getElementById('sal-lowpct-sub');if(ls)ls.textContent=settings.salLowPct+'%';renderSalary();}
       if(id==='set-mbudget'){
         settings.monthlyBudget=+w||0;
         if(!settings.mbAlert||settings.mbAlert.month!==monthKey()) settings.mbAlert={month:monthKey(),level:0}; else settings.mbAlert.level=0;
@@ -3809,12 +4081,23 @@ function init(){
   mkToggle('sub-summary','subShowSummary',()=>renderSubs());
   mkToggle('sub-price','subShowPrice',()=>renderSubs());
   mkToggle('sub-due','subShowDue',()=>renderSubs());
+  mkToggle('sub-info','subShowInfo',()=>renderSubs());
+  mkToggle('sub-editmode','subEditMode',()=>renderSubs());
+  // subscription view switcher: Tiles (two columns) vs Details (rows)
+  document.querySelectorAll('#seg-sub-view .seg-btn').forEach(b=>b.addEventListener('click',function(){
+    settings.subCompact = this.dataset.view==='tiles';
+    document.querySelectorAll('#seg-sub-view .seg-btn').forEach(x=>x.classList.toggle('on',x===this));
+    save('pt_settings',settings); renderSubs();
+  }));
+  mkToggle('sal-subsubs','salSubtractSubs',()=>renderSalary());
+  mkToggle('sal-remaining','salShowRemaining',()=>renderSalary());
+  mkToggle('sal-note','salShowNote',()=>renderSalary());
   // monthly-in-total toggle removed (subscriptions removed)
 
   document.getElementById('set-currency').addEventListener('change',function(){settings.currency=this.value;save('pt_settings',settings);renderEntries();renderMonthly();applySettings();});
   document.getElementById('set-calendar').addEventListener('change',function(){settings.cal=this.value;save('pt_settings',settings);renderEntries();renderDashboard();renderMonthly();renderSubs();showToast(this.value==='greg'?'✓ التقويم: ميلادي':'✓ التقويم: هجري');});
   document.getElementById('set-sort').addEventListener('change',function(){settings.sortBy=this.value;save('pt_settings',settings);renderEntries();});
-  document.getElementById('set-proj-name').addEventListener('input',function(){settings.projectName=this.value;save('pt_settings',settings);document.getElementById('logo').textContent=this.value||'وين فلوسي تروح';});
+  document.getElementById('set-proj-name').addEventListener('input',function(){settings.projectName=this.value;save('pt_settings',settings);document.getElementById('logo').textContent=this.value||'وين فلوسي';});
   document.getElementById('set-week-mode').addEventListener('change',function(){settings.weekMode=this.value;save('pt_settings',settings);renderEntries();});
   document.getElementById('set-uisize').addEventListener('change',function(){settings.uiSize=this.value;save('pt_settings',settings);applyUiSize(this.value);});
   document.getElementById('set-tracker-total').addEventListener('change',function(){settings.trackerTotal=this.value;save('pt_settings',settings);renderEntries();});
@@ -3851,6 +4134,8 @@ function init(){
   // edit-subscription modal
   document.getElementById('se-save').addEventListener('click',saveSubEdit);
   document.getElementById('se-cancel').addEventListener('click',closeSubEdit);
+  { const sieb=document.getElementById('se-icon-btn'); if(sieb) sieb.addEventListener('click',function(){ seIcon=randSubIcon(); paintSeIconBtn(); });
+    const siec=document.getElementById('se-icon-color'); if(siec) siec.addEventListener('input',function(){ seColor=this.value; if(!seIcon) seIcon=randSubIcon(); paintSeIconBtn(); }); }
   document.getElementById('sub-edit-modal').addEventListener('click',(e)=>{if(e.target.id==='sub-edit-modal')closeSubEdit();});
   document.getElementById('se-amt').addEventListener('input',function(){var w=toW(this.value);if(w!==this.value){var p=this.selectionStart;this.value=w;try{this.setSelectionRange(p,p);}catch(e){}}});
   document.getElementById('se-start').addEventListener('change',_seEndPreview);
@@ -4124,13 +4409,19 @@ function init(){
     const startDate=(startEl&&startEl.value)||today();       // default to today if left empty
     const endOverride=(endEl&&endEl.value)||'';
     const startMonth=startDate.slice(0,7);                    // keep month-anchor in sync for due/history logic
-    subs.unshift({id:Date.now(),name,amount,day,cycle,desc,startDate,endOverride,startMonth,paidMonths:[]});
+    const sub={id:Date.now(),name,amount,day,cycle,desc,startDate,endOverride,startMonth,paidMonths:[]};
+    if(subAddIcon){ sub.icon=subAddIcon; sub.iconColor=subAddColor; }   // custom icon+color (empty → brand logo)
+    subs.unshift(sub);
     save('pt_subs',subs);
     amtEl.value=''; nameEl.value=''; if(cycleEl) cycleEl.value='1';
     if(descEl) descEl.value=''; if(startEl) startEl.value=''; if(endEl) endEl.value='';
     updateEndPreview('','1','',document.getElementById('sub-end-preview'));
+    initSubIconPicker();   // fresh random icon for the next subscription
     renderSubs(); showToast(cycle>1?'تم إضافة الاشتراك ('+cycleLabel(cycle)+')':'تم إضافة الاشتراك');
   });
+  { const sib=document.getElementById('sub-icon-btn'); if(sib) sib.addEventListener('click',rollSubIcon);
+    const sic=document.getElementById('sub-icon-color'); if(sic) sic.addEventListener('input',function(){ subAddColor=this.value; if(!subAddIcon) subAddIcon=randSubIcon(); paintSubIconBtn(); });
+    initSubIconPicker(); }
   // live end-date preview in the add form
   (function(){
     var sEl=document.getElementById('sub-start'), cEl=document.getElementById('sub-cycle'),
@@ -4145,6 +4436,9 @@ function init(){
   document.getElementById('sub-name').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('btn-add-sub').click();});
   document.getElementById('sub-add-toggle').addEventListener('click',function(){
     setSubAddOpen(document.getElementById('sub-add-body').style.display==='none');
+  });
+  document.getElementById('sub-quick-toggle').addEventListener('click',function(){
+    setSubQuickOpen(document.getElementById('sub-quick-body').style.display==='none');
   });
   document.getElementById('sub-disp-toggle').addEventListener('click',function(){
     const b=document.getElementById('sub-disp-body');
